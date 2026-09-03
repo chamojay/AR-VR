@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#ffffff"/>
+  <!-- Black outer border (25% border width as required by ARToolKit/AR.js) -->
+  <rect x="64" y="64" width="384" height="384" fill="#000000"/>
+  <!-- White inner box -->
+  <rect x="128" y="128" width="256" height="256" fill="#ffffff"/>
+  <!-- HIRO Kanji Pattern -->
+  <!-- Top horizontal bar -->
+  <rect x="160" y="160" width="192" height="32" fill="#000000"/>
+  <!-- Middle left vertical stroke -->
+  <rect x="160" y="192" width="32" height="160" fill="#000000"/>
+  <!-- Central cross vertical -->
+  <rect x="240" y="192" width="32" height="160" fill="#000000"/>
+  <!-- Center horizontal bar -->
+  <rect x="160" y="256" width="192" height="32" fill="#000000"/>
+  <!-- Bottom right vertical leg -->
+  <rect x="320" y="256" width="32" height="96" fill="#000000"/>
+  <!-- Bottom horizontal bar -->
+  <rect x="160" y="320" width="192" height="32" fill="#000000"/>
+</svg>

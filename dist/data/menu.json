@@ -1,0 +1,314 @@
+{
+  "restaurant": {
+    "name": "DineView AR",
+    "tagline": "Interactive WebAR Restaurant Menu & 3D Culinary Experience",
+    "currency": "LKR",
+    "currencySymbol": "Rs.",
+    "tableNumber": 7
+  },
+  "categories": [
+    { "id": "all", "name": "Full Menu", "icon": "🍽️" },
+    { "id": "pizzas", "name": "Artisan Pizzas", "icon": "🍕" },
+    { "id": "asian", "name": "Asian Noodles & Bowls", "icon": "🍜" },
+    { "id": "chef-specials", "name": "Chef's Specials", "icon": "⭐" }
+  ],
+  "dishes": [
+    {
+      "id": "pizza-margherita",
+      "name": "Artisan Margherita Rustica",
+      "subtitle": "Classic Neapolitan Wood-Fired Pizza on Ceramic Platter",
+      "category": "pizzas",
+      "featured": true,
+      "basePrice": 2450,
+      "baseCalories": 780,
+      "prepTime": "12-15 mins",
+      "rating": 4.9,
+      "reviewsCount": 128,
+      "allergens": ["Gluten", "Dairy"],
+      "dietary": ["Vegetarian", "Classic Favorite"],
+      "shortDescription": "Wood-fired sourdough crust layered with crushed San Marzano tomatoes, fresh buffalo mozzarella, aromatic basil, and extra virgin olive oil.",
+      "fullDescription": "Handcrafted using a 48-hour fermented slow sourdough base, baked at 450°C in an Italian stone hearth. Topped with sweet volcanic San Marzano DOP tomato passata, creamy Fior di Latte mozzarella, hand-torn sweet Genovese basil leaves, and a finishing drizzle of cold-pressed Sicilian olive oil, served upon a presentation ceramic plate.",
+      "ingredients": [
+        "Slow-fermented Caputo '00' flour sourdough",
+        "San Marzano DOP crushed plum tomatoes",
+        "Fresh Fior di Latte Buffalo Mozzarella",
+        "Organic sweet Genovese basil leaves",
+        "Cold-pressed Sicilian extra virgin olive oil",
+        "Flaky sea salt & cracked black pepper"
+      ],
+      "nutrition": {
+        "carbs": "88g",
+        "protein": "32g",
+        "fat": "24g",
+        "sodium": "960mg"
+      },
+      "originalModel": "/models/original/pizza.glb",
+      "optimizedModel": "/models/optimized/pizza.glb",
+      "thumbnail": "/images/pizza-margherita.png",
+      "badge": "Wood-Fired",
+      "markerScale": "0.32 0.32 0.32",
+      "markerPosition": "0 0.02 0",
+      "markerRotation": "0 45 0",
+      "realWidthM": 0.28,
+      "realHeightM": 0.055,
+      "realDepthM": 0.28,
+      "cameraOrbit": "45deg 65deg 0.75m",
+      "minCameraOrbit": "auto auto 0.3m",
+      "maxCameraOrbit": "auto auto 1.5m",
+      "fieldOfView": "35deg",
+      "hotspots": [
+        {
+          "slot": "hotspot-crust",
+          "position": "0.11m 0.025m -0.09m",
+          "normal": "0.5m 0.8m -0.3m",
+          "title": "Leopard-Spotted Crust",
+          "desc": "Airy, blistered crust from 48h sourdough fermentation."
+        },
+        {
+          "slot": "hotspot-cheese",
+          "position": "-0.02m 0.026m 0.01m",
+          "normal": "0m 1m 0m",
+          "title": "Melted Buffalo Mozzarella",
+          "desc": "Creamy artisanal Fior di Latte with rich melt."
+        },
+        {
+          "slot": "hotspot-plate",
+          "position": "0m 0.002m 0.13m",
+          "normal": "0m 1m 0.2m",
+          "title": "Ceramic Serving Platter",
+          "desc": "Thermal retaining ceramic keeps the base crisp."
+        }
+      ],
+      "portions": {
+        "small": {
+          "label": "Small (Personal 22cm)",
+          "scale": 0.8,
+          "priceMultiplier": 0.82,
+          "calorieMultiplier": 0.8,
+          "realWidthM": 0.22,
+          "serves": "1 person"
+        },
+        "regular": {
+          "label": "Regular (Standard 28cm)",
+          "scale": 1.0,
+          "priceMultiplier": 1.0,
+          "calorieMultiplier": 1.0,
+          "realWidthM": 0.28,
+          "serves": "1-2 persons"
+        },
+        "large": {
+          "label": "Large (Sharing 34cm)",
+          "scale": 1.25,
+          "priceMultiplier": 1.35,
+          "calorieMultiplier": 1.3,
+          "realWidthM": 0.34,
+          "serves": "2-3 persons"
+        }
+      },
+      "addOns": [
+        { "id": "extra-mozzarella", "name": "Double Buffalo Mozzarella", "price": 450, "calories": 140, "icon": "🧀" },
+        { "id": "truffle-oil", "name": "Black Truffle Infused Drizzle", "price": 380, "calories": 65, "icon": "✨" },
+        { "id": "chili-honey", "name": "Hot Calabrian Chili Honey", "price": 250, "calories": 45, "icon": "🍯" },
+        { "id": "garlic-dip", "name": "Roasted Garlic Herb Crust Dip", "price": 220, "calories": 90, "icon": "🧄" }
+      ]
+    },
+    {
+      "id": "pizza-ballerina",
+      "name": "Ballerina Gourmet Truffle Pizza",
+      "subtitle": "Signature Chef's Special with Multi-Texture Gourmet Toppings",
+      "category": "chef-specials",
+      "featured": true,
+      "basePrice": 3250,
+      "baseCalories": 920,
+      "prepTime": "15-18 mins",
+      "rating": 5.0,
+      "reviewsCount": 94,
+      "allergens": ["Gluten", "Dairy", "Mushrooms"],
+      "dietary": ["Chef's Signature", "Gourmet Selection"],
+      "shortDescription": "Luxurious gourmet pizza featuring wild forest mushrooms, creamy stracciatella, shavings of black summer truffle, and fresh micro-greens.",
+      "fullDescription": "The crown jewel of our wood-fired oven. This gourmet pie showcases a delicate white cream base (Bianca), pan-roasted wild porcini and cremini mushrooms, silken Stracciatella di Bufala, aromatic grated pecorino Romano, fresh rosemary sprigs, and decadent black summer truffle shavings. Each slice is precision cut for easy sharing.",
+      "ingredients": [
+        "Stoneground artisan sourdough base",
+        "Creamy Taleggio & white garlic base sauce",
+        "Pan-seared Porcini and Cremini mushrooms",
+        "Silken Stracciatella di Bufala cheese",
+        "Fresh Italian black summer truffle shavings",
+        "Fresh garden thyme & baby arugula"
+      ],
+      "nutrition": {
+        "carbs": "82g",
+        "protein": "36g",
+        "fat": "34g",
+        "sodium": "880mg"
+      },
+      "originalModel": "/models/original/pizza_ballerina.glb",
+      "optimizedModel": "/models/optimized/pizza_ballerina.glb",
+      "thumbnail": "/images/pizza-ballerina.png",
+      "badge": "Signature Special",
+      "markerScale": "0.33 0.33 0.33",
+      "markerPosition": "0 0.02 0",
+      "markerRotation": "0 90 0",
+      "realWidthM": 0.33,
+      "realHeightM": 0.065,
+      "realDepthM": 0.33,
+      "cameraOrbit": "-35deg 60deg 0.8m",
+      "minCameraOrbit": "auto auto 0.3m",
+      "maxCameraOrbit": "auto auto 1.6m",
+      "fieldOfView": "35deg",
+      "hotspots": [
+        {
+          "slot": "hotspot-truffle",
+          "position": "0.03m 0.08m -0.04m",
+          "normal": "0m 1m 0m",
+          "title": "Black Truffle Shavings",
+          "desc": "Earthy summer truffle for an intense aromatic profile."
+        },
+        {
+          "slot": "hotspot-mushrooms",
+          "position": "-0.08m 0.075m 0.05m",
+          "normal": "-0.3m 0.9m 0.3m",
+          "title": "Wild Porcini Slices",
+          "desc": "Caramelized in brown butter and garden herbs."
+        },
+        {
+          "slot": "hotspot-crust-ballerina",
+          "position": "0.14m 0.06m 0.08m",
+          "normal": "0.8m 0.5m 0.3m",
+          "title": "Crisp Golden Rim",
+          "desc": "Brushed with garlic-infused herb butter."
+        }
+      ],
+      "portions": {
+        "small": {
+          "label": "Individual (24cm)",
+          "scale": 0.8,
+          "priceMultiplier": 0.84,
+          "calorieMultiplier": 0.8,
+          "realWidthM": 0.25,
+          "serves": "1 person"
+        },
+        "regular": {
+          "label": "Regular (33cm)",
+          "scale": 1.0,
+          "priceMultiplier": 1.0,
+          "calorieMultiplier": 1.0,
+          "realWidthM": 0.33,
+          "serves": "2 persons"
+        },
+        "large": {
+          "label": "Party Grande (38cm)",
+          "scale": 1.25,
+          "priceMultiplier": 1.38,
+          "calorieMultiplier": 1.3,
+          "realWidthM": 0.38,
+          "serves": "3-4 persons"
+        }
+      },
+      "addOns": [
+        { "id": "extra-truffle", "name": "Fresh Shaved Truffle (+5g)", "price": 750, "calories": 20, "icon": "🍄" },
+        { "id": "burrata-crown", "name": "Whole Fresh Burrata Heart", "price": 620, "calories": 210, "icon": "🧀" },
+        { "id": "prosciutto-crudo", "name": "Aged San Daniele Prosciutto", "price": 580, "calories": 130, "icon": "🥓" },
+        { "id": "chili-oil", "name": "House Artisanal Chili Oil", "price": 180, "calories": 50, "icon": "🌶️" }
+      ]
+    },
+    {
+      "id": "yakiudon-sizzle",
+      "name": "Tokyo Yaki Udon Sizzle Bowl",
+      "subtitle": "Wok-Tossed Thick Sanuki Noodles with Savory Glaze & Toppings",
+      "category": "asian",
+      "featured": true,
+      "basePrice": 2150,
+      "baseCalories": 690,
+      "prepTime": "10-12 mins",
+      "rating": 4.8,
+      "reviewsCount": 112,
+      "allergens": ["Gluten", "Soy", "Sesame", "Fish/Katsuobushi"],
+      "dietary": ["High Protein", "Wok Hei Smoked"],
+      "shortDescription": "Chewy Japanese wheat noodles flash-fried in a searing wok with sweet savory dashi soy glaze, crisp seasonal greens, shiitake mushrooms, and bonito flakes.",
+      "fullDescription": "Authentic Japanese comfort bowl crafted with thick, bouncy Sanuki udon noodles. Flash-fried over a 40,000 BTU wok for authentic 'Wok Hei' smokiness, enveloped in our signature caramelized Worcestershire-dashi reduction, tender julienned cabbage, king oyster mushrooms, scallions, toasted white sesame seeds, and dancing katsuobushi flakes.",
+      "ingredients": [
+        "Handmade thick Sanuki wheat udon",
+        "Aged sweet mirin and dashi soy reduction",
+        "Wok-charred sweet cabbage & carrots",
+        "Sliced King Oyster mushrooms & spring onions",
+        "Toasted fragrant white sesame seeds",
+        "Dancing Japanese bonito katsuobushi flakes"
+      ],
+      "nutrition": {
+        "carbs": "94g",
+        "protein": "26g",
+        "fat": "18g",
+        "sodium": "1120mg"
+      },
+      "originalModel": "/models/original/yakiudon.glb",
+      "optimizedModel": "/models/optimized/yakiudon.glb",
+      "thumbnail": "/images/yakiudon-sizzle.png",
+      "badge": "Wok-Tossed",
+      "markerScale": "0.35 0.35 0.35",
+      "markerPosition": "0 0.03 0",
+      "markerRotation": "0 30 0",
+      "realWidthM": 0.24,
+      "realHeightM": 0.08,
+      "realDepthM": 0.24,
+      "cameraOrbit": "25deg 55deg 0.7m",
+      "minCameraOrbit": "auto auto 0.25m",
+      "maxCameraOrbit": "auto auto 1.4m",
+      "fieldOfView": "35deg",
+      "hotspots": [
+        {
+          "slot": "hotspot-noodles",
+          "position": "0.01m 0.06m 0.02m",
+          "normal": "0m 1m 0m",
+          "title": "Sanuki Udon Noodles",
+          "desc": "Thick, chewy texture with caramelized wok glaze."
+        },
+        {
+          "slot": "hotspot-garnish",
+          "position": "-0.04m 0.07m -0.03m",
+          "normal": "-0.2m 0.9m -0.2m",
+          "title": "Bonito & Sesame Garnish",
+          "desc": "Adds savory umami crunch and smoky aroma."
+        },
+        {
+          "slot": "hotspot-bowl",
+          "position": "0.08m 0.02m 0.07m",
+          "normal": "0.7m 0.6m 0.4m",
+          "title": "Traditional Ceramic Donburi",
+          "desc": "Hand-glazed heat-insulating Japanese bowl."
+        }
+      ],
+      "portions": {
+        "small": {
+          "label": "Light Lunch Bowl",
+          "scale": 0.8,
+          "priceMultiplier": 0.82,
+          "calorieMultiplier": 0.8,
+          "realWidthM": 0.20,
+          "serves": "1 person"
+        },
+        "regular": {
+          "label": "Standard Tokyo Portion",
+          "scale": 1.0,
+          "priceMultiplier": 1.0,
+          "calorieMultiplier": 1.0,
+          "realWidthM": 0.24,
+          "serves": "1 person"
+        },
+        "large": {
+          "label": "Sumo Sized (Extra Noodles)",
+          "scale": 1.28,
+          "priceMultiplier": 1.32,
+          "calorieMultiplier": 1.3,
+          "realWidthM": 0.29,
+          "serves": "1-2 hungry guests"
+        }
+      },
+      "addOns": [
+        { "id": "onsen-egg", "name": "Soft-Poached Onsen Egg", "price": 280, "calories": 75, "icon": "🥚" },
+        { "id": "crispy-tofu", "name": "Golden Age Tofu Cubes (4 pcs)", "price": 320, "calories": 110, "icon": "🥢" },
+        { "id": "spicy-rayu", "name": "Crispy Garlic Chili Rayu", "price": 190, "calories": 60, "icon": "🌶️" },
+        { "id": "pickled-ginger", "name": "Beni Shoga Red Pickled Ginger", "price": 140, "calories": 15, "icon": "🌸" }
+      ]
+    }
+  ]
+}

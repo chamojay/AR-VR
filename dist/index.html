@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>DineView AR - Interactive WebAR Restaurant Menu</title>
+  <meta name="description" content="Experience chef-curated dishes in 3D and Augmented Reality on your table before ordering." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>" />
+  <script type="module" crossorigin src="/assets/main-Bmjo_2lS.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/model-viewer-6q-beTJl.js">
+  <link rel="stylesheet" crossorigin href="/assets/styles-B0h2UdAo.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <header class="utility-bar">
+    <div class="container">
+      <div style="font-weight: 600;">✨ WebAR Interactive Menu • View Food in Real 3D</div>
+      <div class="utility-cluster">
+        <span>Table #07</span>
+        <button id="btnTopMarkerGuide" style="font-weight: 600; text-decoration: underline;">Marker Guide</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Primary Navigation -->
+  <nav class="primary-nav" aria-label="Main Navigation">
+    <div class="container nav-container">
+      <!-- Brand Logo -->
+      <a href="/" class="brand-swoosh-logo" id="brandLogo">
+        <span>DINEVIEW</span>
+        <span class="brand-tag">AR MENU</span>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <div class="nav-links-center">
+        <a href="#menuSection" class="nav-link-item active">Menu</a>
+        <a href="/dish.html?dish=pizza-margherita" class="nav-link-item">3D Studio</a>
+        <a href="/marker-ar.html?dish=pizza-margherita" class="nav-link-item">Marker AR</a>
+      </div>
+
+      <!-- Right Nav Cluster -->
+      <div class="nav-right-cluster">
+        <button class="btn-secondary" id="btnShowMarkerModal" style="padding: 10px 20px; min-height: 40px; font-size: 0.875rem;">
+          <span>🎯 Hiro Marker</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Modern Editorial Hero -->
+    <section class="container campaign-hero">
+      <div class="campaign-tile-hero">
+        <div class="campaign-subtag">Interactive AR Dining Experience</div>
+        <h1 class="campaign-headline">SEE YOUR FOOD<br />IN REAL 3D.</h1>
+        <p class="campaign-desc">
+          Preview our chef-curated dishes on your physical table in full 1:1 scale before placing your order.
+        </p>
+        <div class="campaign-cta-row">
+          <a href="#menuSection" class="btn-primary" style="background-color: var(--color-canvas); color: var(--color-ink);">
+            <span>Explore Menu ↓</span>
+          </a>
+          <button class="btn-outline-on-image" id="btnExploreHero">
+            <span>🎯 How AR Works</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Menu Collection Section -->
+    <section class="container section-container" id="menuSection">
+      
+      <!-- Section Title Header Row -->
+      <div class="section-header-row">
+        <div>
+          <h2 class="section-title">MENU ITEMS</h2>
+          <p class="caption-md">Tap any dish to inspect in 3D and place on your table with AR</p>
+        </div>
+        <div class="caption-sm" id="dishCountLabel" style="font-weight: 600;">3 Items</div>
+      </div>
+
+      <!-- Category Filter Rail -->
+      <div class="filter-rail" id="categoryBar" role="tablist">
+        <!-- Injected dynamically by main.js -->
+      </div>
+
+      <!-- Product Cards Grid -->
+      <div class="product-grid" id="dishGrid">
+        <!-- Rendered dynamically by main.js -->
+      </div>
+
+    </section>
+
+    <!-- How AR Works 3-Step Banner -->
+    <section class="container section-container">
+      <div style="background-color: var(--color-soft-cloud); padding: var(--space-xl); border-radius: 12px;">
+        <h3 style="font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: var(--space-md);">
+          HOW TO VIEW IN AUGMENTED REALITY
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md);">
+          <div style="background: #fff; padding: var(--space-lg); border-radius: 8px; border: 1px solid var(--color-hairline-soft);">
+            <div style="font-size: 1.5rem; margin-bottom: 6px;">1️⃣</div>
+            <div class="body-strong" style="margin-bottom: 4px;">Choose a Dish</div>
+            <p class="caption-md">Select your favorite dish from the menu above.</p>
+          </div>
+          <div style="background: #fff; padding: var(--space-lg); border-radius: 8px; border: 1px solid var(--color-hairline-soft);">
+            <div style="font-size: 1.5rem; margin-bottom: 6px;">2️⃣</div>
+            <div class="body-strong" style="margin-bottom: 4px;">Choose AR Mode</div>
+            <p class="caption-md">Tap <strong>"Place on Table"</strong> (markerless) or <strong>"Scan Marker"</strong>.</p>
+          </div>
+          <div style="background: #fff; padding: var(--space-lg); border-radius: 8px; border: 1px solid var(--color-hairline-soft);">
+            <div style="font-size: 1.5rem; margin-bottom: 6px;">3️⃣</div>
+            <div class="body-strong" style="margin-bottom: 4px;">Experience at 1:1 Scale</div>
+            <p class="caption-md">Inspect portions, details, and presentation right on your dining table!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Hiro Marker Reference Modal -->
+  <div class="modal-backdrop" id="markerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-hairline); padding-bottom: var(--space-sm);">
+        <h3 id="modalTitle" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">Hiro Marker Reference</h3>
+        <button id="btnCloseMarkerModal" class="btn-icon-circular" aria-label="Close modal">✕</button>
+      </div>
+
+      <p class="body-md" style="font-size: 0.9375rem; margin-top: var(--space-sm);">
+        For <strong>Marker AR Mode</strong>, point your camera at this Hiro pattern:
+      </p>
+
+      <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center; margin: var(--space-md) 0;">
+        <img src="/markers/hiro.svg" alt="Hiro Marker Pattern" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 10px; border: 1px solid var(--color-hairline);" />
+      </div>
+
+      <div style="display: flex; gap: var(--space-sm); justify-content: flex-end;">
+        <a href="/markers/hiro.svg" download="hiro-marker.svg" class="btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
+          <span>Download SVG</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="nike-footer">
+    <div class="container">
+      <div class="footer-bottom-bar" style="border: none; padding-top: var(--space-md);">
+        <div>© 2026 DineView AR • Interactive Augmented Reality Dining Experience</div>
+        <div style="display: flex; gap: var(--space-md);">
+          <a href="/dish.html?dish=pizza-margherita">3D Studio</a>
+          <a href="/marker-ar.html?dish=pizza-margherita">Marker AR</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

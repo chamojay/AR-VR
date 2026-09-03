@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Marker-Based AR Tracking - DineView AR</title>
+  <meta name="description" content="Anchor 3D food models onto a printed or on-screen Hiro marker using WebAR (A-Frame + AR.js)." />
+  
+  <!-- A-Frame 1.4.2 & AR.js 3.4.5 -->
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>" />
+  <script type="module" crossorigin src="/assets/markerAr-CHfUAguP.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/assets/styles-B0h2UdAo.css">
+</head>
+<body class="ar-body">
+
+  <!-- A-Frame AR Scene -->
+  <a-scene
+    embedded
+    arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best;"
+    vr-mode-ui="enabled: false"
+    renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true;"
+    style="position: fixed; inset: 0; z-index: 1;"
+  >
+    <!-- Lighting Setup -->
+    <a-entity light="type: ambient; color: #ffffff; intensity: 1.2"></a-entity>
+    <a-entity light="type: directional; color: #ffffff; intensity: 1.5" position="1 4 2"></a-entity>
+    <a-entity light="type: directional; color: #e5e5e5; intensity: 0.6" position="-2 2 -1"></a-entity>
+
+    <!-- Hiro Marker Anchor -->
+    <a-marker
+      preset="hiro"
+      id="hiroMarker"
+      emitevents="true"
+      smooth="true"
+      smoothCount="10"
+      smoothTolerance="0.01"
+      smoothThreshold="5"
+    >
+      <!-- Dynamically Loaded 3D Food Model -->
+      <a-entity
+        id="foodModelEntity"
+        position="0 0.02 0"
+        scale="0.35 0.35 0.35"
+        rotation="0 0 0"
+      ></a-entity>
+    </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <!-- AR Scanning Targeting Reticle -->
+  <div class="ar-reticle-box" id="arReticle">
+    <span class="ar-reticle-label">Point at Hiro Marker</span>
+  </div>
+
+  <!-- Floating In-AR Head-Up Display (HUD) -->
+  <div class="ar-hud-overlay" id="arHud">
+    
+    <!-- Top HUD Bar -->
+    <div class="ar-hud-top">
+      <a href="/dish.html" class="btn-outline-on-image" id="arBackLink" style="padding: 8px 16px; font-size: 0.875rem;">
+        <span>← Exit AR</span>
+      </a>
+
+      <div class="ar-status-pill" id="arStatusBadge">
+        <span>🔍 Scanning for Marker...</span>
+      </div>
+
+      <button class="btn-outline-on-image" id="btnShowMarkerHelp" style="padding: 8px 16px; font-size: 0.875rem;">
+        <span>🎯 Marker Guide</span>
+      </button>
+    </div>
+
+    <!-- Bottom HUD Controls & Information Card -->
+    <div class="ar-hud-bottom">
+      
+      <!-- Interactive Rotation Adjustment Controls -->
+      <div style="display: flex; justify-content: center; gap: var(--space-xs);">
+        <button class="btn-outline-on-image" id="btnRotateLeft" style="padding: 8px 16px; font-size: 0.8125rem;">
+          <span>↺ -45°</span>
+        </button>
+        <button class="btn-outline-on-image" id="btnResetRotation" style="padding: 8px 16px; font-size: 0.8125rem;">
+          <span>Reset View</span>
+        </button>
+        <button class="btn-outline-on-image" id="btnRotateRight" style="padding: 8px 16px; font-size: 0.8125rem;">
+          <span>+45° ↻</span>
+        </button>
+      </div>
+
+      <!-- Bottom Card (Flat 0px Card) -->
+      <div class="ar-card-bottom" style="background: rgba(17, 17, 17, 0.9); backdrop-filter: blur(10px); color: #fff; border-radius: 12px; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
+        <div>
+          <div class="body-strong" id="arDishTitle" style="color: #fff; font-size: 1.05rem; font-weight: 700;">Loading Dish...</div>
+          <div class="heading-md" id="arDishPrice" style="color: #4ade80; font-weight: 800; font-size: 1.15rem; margin-top: 2px;">Rs. 0</div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: var(--space-md);">
+          <!-- Quick Dish Switcher Dropdown -->
+          <select 
+            id="arDishSelector" 
+            class="btn-secondary" 
+            style="padding: 8px 12px; font-size: 0.8125rem; min-height: 40px; background: #262626; color: #fff; border: 1px solid #404040; border-radius: 8px;"
+            aria-label="Switch Dish"
+          >
+            <!-- Injected by marker-ar.js -->
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Marker Reference Modal -->
+  <div class="modal-backdrop" id="markerModal" role="dialog" aria-modal="true" aria-labelledby="markerModalTitle">
+    <div class="modal-content-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-hairline); padding-bottom: var(--space-sm);">
+        <h3 id="markerModalTitle" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">Hiro Marker Screen Preview</h3>
+        <button id="btnCloseMarkerModal" class="btn-icon-circular" aria-label="Close modal">✕</button>
+      </div>
+
+      <p class="body-md" style="font-size: 0.9375rem;">
+        Hold this marker pattern in front of your camera or point your mobile phone at another screen displaying this marker:
+      </p>
+
+      <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center;">
+        <img src="/markers/hiro.svg" alt="Hiro Marker" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 10px; border: 1px solid var(--color-hairline);" />
+      </div>
+
+      <div style="display: flex; gap: var(--space-sm); justify-content: flex-end;">
+        <a href="/markers/hiro.svg" download="hiro-marker.svg" class="btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
+          <span>Download SVG</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

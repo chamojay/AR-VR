@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Dish 3D & AR Experience - DineView AR</title>
+  <meta name="description" content="Experience chef-curated dishes in 3D and Augmented Reality on your table before ordering." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>" />
+  <script type="module" crossorigin src="/assets/dish-CauUjHNV.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/model-viewer-6q-beTJl.js">
+  <link rel="stylesheet" crossorigin href="/assets/styles-B0h2UdAo.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <header class="utility-bar">
+    <div class="container">
+      <div style="font-weight: 600;">✨ WebAR Interactive Menu • 3D & Augmented Reality</div>
+      <div class="utility-cluster">
+        <button id="btnTopMarkerGuide" style="font-weight: 600; text-decoration: underline;">Marker Guide</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Primary Navigation -->
+  <nav class="primary-nav" aria-label="Studio Navigation">
+    <div class="container nav-container">
+      <a href="/" class="brand-swoosh-logo" id="brandLogo">
+        <span>← BACK TO MENU</span>
+      </a>
+
+      <div class="nav-links-center">
+        <span class="caption-md" id="pdpBreadcrumb" style="font-weight: 700; color: var(--color-ink);">Dish Preview</span>
+      </div>
+
+      <div class="nav-right-cluster">
+        <button class="btn-secondary" id="btnShowMarkerModal" style="padding: 8px 18px; min-height: 40px; font-size: 0.875rem;">
+          <span>🎯 Marker Guide</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="pdp-layout">
+      
+      <!-- Left Column: 3D Stage -->
+      <section class="pdp-stage-container" aria-label="3D Interactive Stage">
+        
+        <!-- Top Badges Overlay -->
+        <div style="position: absolute; top: var(--space-md); left: var(--space-md); z-index: 10; display: flex; gap: var(--space-xs);">
+          <span class="badge-promo" id="pdpBadge">Chef Selection</span>
+          <span class="badge-promo" style="background-color: var(--color-ink); color: var(--color-on-primary);">3D & WebAR</span>
+        </div>
+
+        <!-- <model-viewer> 3D Component -->
+        <model-viewer
+          id="studioViewer"
+          class="pdp-model-viewer"
+          src=""
+          alt="3D Dish Model"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+          ar-scale="auto"
+          camera-controls
+          touch-action="pan-y"
+          auto-rotate
+          auto-rotate-delay="1500"
+          rotation-per-second="20deg"
+          shadow-intensity="1.1"
+          shadow-softness="0.85"
+          exposure="1.05"
+        >
+        </model-viewer>
+
+        <!-- Floating Stage Controls Overlay -->
+        <div class="pdp-stage-controls">
+          <div class="pdp-ctrl-group">
+            <button class="btn-icon-circular" id="btnResetCamera" title="Reset 3D Camera" aria-label="Reset Camera">↺</button>
+            <button class="btn-icon-circular" id="btnToggleAutoRotate" title="Toggle Auto-Rotation" aria-label="Auto Rotate">⟳</button>
+            <button class="btn-icon-circular" id="btnToggleLighting" title="Toggle Studio Lighting" aria-label="Studio Lighting">💡</button>
+          </div>
+          <span class="card-touch-hint" style="position: static;">Touch to spin 360°</span>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Product Details & Direct AR Launchers -->
+      <section class="pdp-details-col" aria-label="Product Details & AR Actions">
+        
+        <!-- Title & Price Block -->
+        <div class="pdp-title-block">
+          <h1 class="pdp-title" id="dishName" style="font-size: 2.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 8px;">Loading Dish...</h1>
+          <div class="pdp-price" id="pdpPriceDisplay" style="font-size: 2rem; font-weight: 900; color: var(--color-ink); margin-bottom: 12px;">Rs. 0</div>
+          <p class="body-md" id="dishShortDesc" style="color: var(--color-charcoal); line-height: 1.6;"></p>
+        </div>
+
+        <!-- Primary AR Actions Section -->
+        <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); border-radius: 12px; margin-top: var(--space-md); border: 1px solid var(--color-hairline-soft);">
+          <div style="font-weight: 800; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: var(--space-sm); color: var(--color-ink);">
+            ✨ Launch Augmented Reality
+          </div>
+          
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <!-- Markerless AR (Place on Table) -->
+            <button class="btn-primary" id="btnPlaceOnTable" style="width: 100%; padding: 14px 20px; font-size: 1rem; justify-content: center; display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 1.2rem;">🪑</span>
+              <span>Place on Real Table (Markerless AR)</span>
+            </button>
+            
+            <!-- Marker AR (Hiro Pattern) -->
+            <a href="#" class="btn-secondary" id="btnLaunchMarkerAR" style="width: 100%; padding: 14px 20px; font-size: 1rem; justify-content: center; display: flex; align-items: center; gap: 8px; text-decoration: none; text-align: center;">
+              <span style="font-size: 1.2rem;">🎯</span>
+              <span>Scan Hiro Marker (Camera AR)</span>
+            </a>
+          </div>
+
+          <div style="margin-top: var(--space-md); font-size: 0.8125rem; color: var(--color-mute); line-height: 1.5; border-top: 1px solid var(--color-hairline-soft); padding-top: var(--space-sm);">
+            💡 <strong>Tip:</strong> Tap <strong>"Place on Real Table"</strong> on your phone to view this dish directly on your surface, or tap <strong>"Scan Hiro Marker"</strong> to lock the model onto a printed or on-screen marker!
+          </div>
+        </div>
+
+        <!-- Quick Switcher to Other Dishes -->
+        <div style="margin-top: var(--space-xl);">
+          <div class="caption-sm" style="font-weight: 700; text-transform: uppercase; margin-bottom: var(--space-sm); color: var(--color-mute);">
+            Switch to Another Dish
+          </div>
+          <div id="otherDishesList" style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
+            <!-- Injected by dish-viewer.js -->
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- Hiro Marker Reference Modal -->
+  <div class="modal-backdrop" id="markerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-hairline); padding-bottom: var(--space-sm);">
+        <h3 id="modalTitle" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">Hiro Marker Reference</h3>
+        <button id="btnCloseMarkerModal" class="btn-icon-circular" aria-label="Close modal">✕</button>
+      </div>
+
+      <p class="body-md" style="font-size: 0.9375rem; margin-top: var(--space-sm);">
+        For <strong>Marker AR Mode</strong>, point your camera at this Hiro marker pattern:
+      </p>
+
+      <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center; margin: var(--space-md) 0;">
+        <img src="/markers/hiro.svg" alt="Hiro Marker Pattern" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 10px; border: 1px solid var(--color-hairline);" />
+      </div>
+
+      <div style="display: flex; gap: var(--space-sm); justify-content: flex-end;">
+        <a href="/markers/hiro.svg" download="hiro-marker.svg" class="btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
+          <span>Download SVG</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="nike-footer">
+    <div class="container">
+      <div class="footer-bottom-bar" style="border: none; padding-top: var(--space-md);">
+        <div>© 2026 DineView AR • WebAR Dining Experience</div>
+        <a href="/">← Back to Menu</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
