@@ -78,7 +78,7 @@ function setupMarkerEvents() {
   marker.addEventListener('markerFound', () => {
     if (statusBadge) {
       statusBadge.className = 'ar-status-badge locked';
-      statusBadge.innerHTML = '🟢 Tracking Locked';
+      statusBadge.innerHTML = 'Tracking Active';
     }
     if (reticle) {
       reticle.style.opacity = '0';
@@ -88,7 +88,7 @@ function setupMarkerEvents() {
   marker.addEventListener('markerLost', () => {
     if (statusBadge) {
       statusBadge.className = 'ar-status-badge lost';
-      statusBadge.innerHTML = '⚠️ Marker Lost - Realign';
+      statusBadge.innerHTML = 'Marker Lost - Realign';
     }
     if (reticle) {
       reticle.style.opacity = '1';

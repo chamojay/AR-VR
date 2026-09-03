@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Dish 3D & AR Experience - DineView AR</title>
-  <meta name="description" content="Experience chef-curated dishes in 3D and Augmented Reality on your table before ordering." />
+  <title>Dish 3D & AR Experience - Cjay's DINER</title>
+  <meta name="description" content="Experience Cjay's DINER handcrafted dishes in 3D and Augmented Reality on your table before ordering." />
   <link rel="stylesheet" href="/src/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111111'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='42'%3ECJ%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
 
   <!-- Top Announcement Bar -->
   <header class="utility-bar">
     <div class="container">
-      <div style="font-weight: 600;">✨ WebAR Interactive Menu • 3D & Augmented Reality</div>
+      <div style="font-weight: 600;">Welcome to Cjay's DINER • 3D & Augmented Reality Experience</div>
       <div class="utility-cluster">
         <button id="btnTopMarkerGuide" style="font-weight: 600; text-decoration: underline;">Marker Guide</button>
       </div>
@@ -24,16 +24,16 @@
   <nav class="primary-nav" aria-label="Studio Navigation">
     <div class="container nav-container">
       <a href="/" class="brand-swoosh-logo" id="brandLogo">
-        <span>← BACK TO MENU</span>
+        <span>← CJAY'S MENU</span>
       </a>
 
       <div class="nav-links-center">
-        <span class="caption-md" id="pdpBreadcrumb" style="font-weight: 700; color: var(--color-ink);">Dish Preview</span>
+        <span class="caption-md" id="pdpBreadcrumb" style="font-weight: 700; color: var(--color-ink);">Cjay's Menu / Dish Preview</span>
       </div>
 
       <div class="nav-right-cluster">
         <button class="btn-secondary" id="btnShowMarkerModal" style="padding: 8px 18px; min-height: 40px; font-size: 0.875rem;">
-          <span>🎯 Marker Guide</span>
+          <span>Marker Guide</span>
         </button>
       </div>
     </div>
@@ -48,7 +48,7 @@
         <!-- Top Badges Overlay -->
         <div style="position: absolute; top: var(--space-md); left: var(--space-md); z-index: 10; display: flex; gap: var(--space-xs);">
           <span class="badge-promo" id="pdpBadge">Chef Selection</span>
-          <span class="badge-promo" style="background-color: var(--color-ink); color: var(--color-on-primary);">3D & WebAR</span>
+          <span class="badge-promo" style="background-color: var(--color-ink); color: var(--color-on-primary);">Cjay's AR Studio</span>
         </div>
 
         <!-- <model-viewer> 3D Component -->
@@ -74,9 +74,9 @@
         <!-- Floating Stage Controls Overlay -->
         <div class="pdp-stage-controls">
           <div class="pdp-ctrl-group">
-            <button class="btn-icon-circular" id="btnResetCamera" title="Reset 3D Camera" aria-label="Reset Camera">↺</button>
-            <button class="btn-icon-circular" id="btnToggleAutoRotate" title="Toggle Auto-Rotation" aria-label="Auto Rotate">⟳</button>
-            <button class="btn-icon-circular" id="btnToggleLighting" title="Toggle Studio Lighting" aria-label="Studio Lighting">💡</button>
+            <button class="btn-icon-circular" id="btnResetCamera" title="Reset 3D Camera" aria-label="Reset Camera" style="font-size: 0.8125rem; font-weight: 700;">RESET</button>
+            <button class="btn-icon-circular" id="btnToggleAutoRotate" title="Toggle Auto-Rotation" aria-label="Auto Rotate" style="font-size: 0.8125rem; font-weight: 700;">SPIN</button>
+            <button class="btn-icon-circular" id="btnToggleLighting" title="Toggle Studio Lighting" aria-label="Studio Lighting" style="font-size: 0.8125rem; font-weight: 700;">LIGHT</button>
           </div>
           <span class="card-touch-hint" style="position: static;">Touch to spin 360°</span>
         </div>
@@ -88,6 +88,9 @@
         
         <!-- Title & Price Block -->
         <div class="pdp-title-block">
+          <div class="caption-sm" style="font-weight: 700; text-transform: uppercase; color: var(--color-mute); letter-spacing: 0.05em; margin-bottom: 4px;">
+            CJAY'S DINER SPECIALTY
+          </div>
           <h1 class="pdp-title" id="dishName" style="font-size: 2.2rem; font-weight: 800; line-height: 1.1; margin-bottom: 8px;">Loading Dish...</h1>
           <div class="pdp-price" id="pdpPriceDisplay" style="font-size: 2rem; font-weight: 900; color: var(--color-ink); margin-bottom: 12px;">Rs. 0</div>
           <p class="body-md" id="dishShortDesc" style="color: var(--color-charcoal); line-height: 1.6;"></p>
@@ -95,33 +98,31 @@
 
         <!-- Primary AR Actions Section -->
         <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); border-radius: 12px; margin-top: var(--space-md); border: 1px solid var(--color-hairline-soft);">
-          <div style="font-weight: 800; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.05em; margin-bottom: var(--space-sm); color: var(--color-ink);">
-            ✨ Launch Augmented Reality
+          <div style="font-weight: 800; text-transform: uppercase; font-size: 0.8125rem; letter-spacing: 0.05em; margin-bottom: var(--space-sm); color: var(--color-mute);">
+            Experience on Your Table
           </div>
           
           <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
             <!-- Markerless AR (Place on Table) -->
-            <button class="btn-primary" id="btnPlaceOnTable" style="width: 100%; padding: 14px 20px; font-size: 1rem; justify-content: center; display: flex; align-items: center; gap: 8px;">
-              <span style="font-size: 1.2rem;">🪑</span>
-              <span>Place on Real Table (Markerless AR)</span>
+            <button class="btn-primary" id="btnPlaceOnTable" style="width: 100%; padding: 14px 20px; font-size: 0.9375rem; justify-content: center; display: flex; align-items: center; text-align: center;">
+              <span>Place on Table (Markerless AR)</span>
             </button>
             
             <!-- Marker AR (Hiro Pattern) -->
-            <a href="#" class="btn-secondary" id="btnLaunchMarkerAR" style="width: 100%; padding: 14px 20px; font-size: 1rem; justify-content: center; display: flex; align-items: center; gap: 8px; text-decoration: none; text-align: center;">
-              <span style="font-size: 1.2rem;">🎯</span>
-              <span>Scan Hiro Marker (Camera AR)</span>
+            <a href="#" class="btn-secondary" id="btnLaunchMarkerAR" style="width: 100%; padding: 14px 20px; font-size: 0.9375rem; justify-content: center; display: flex; align-items: center; text-decoration: none; text-align: center;">
+              <span>Scan Marker (Camera AR)</span>
             </a>
           </div>
 
           <div style="margin-top: var(--space-md); font-size: 0.8125rem; color: var(--color-mute); line-height: 1.5; border-top: 1px solid var(--color-hairline-soft); padding-top: var(--space-sm);">
-            💡 <strong>Tip:</strong> Tap <strong>"Place on Real Table"</strong> on your phone to view this dish directly on your surface, or tap <strong>"Scan Hiro Marker"</strong> to lock the model onto a printed or on-screen marker!
+            <strong>Note:</strong> Tap <strong>Place on Table</strong> to view this dish directly on your surface, or tap <strong>Scan Marker</strong> to lock onto a Hiro marker.
           </div>
         </div>
 
         <!-- Quick Switcher to Other Dishes -->
         <div style="margin-top: var(--space-xl);">
           <div class="caption-sm" style="font-weight: 700; text-transform: uppercase; margin-bottom: var(--space-sm); color: var(--color-mute);">
-            Switch to Another Dish
+            More from Cjay's Menu
           </div>
           <div id="otherDishesList" style="display: flex; gap: var(--space-sm); flex-wrap: wrap;">
             <!-- Injected by dish-viewer.js -->
@@ -160,8 +161,8 @@
   <footer class="nike-footer">
     <div class="container">
       <div class="footer-bottom-bar" style="border: none; padding-top: var(--space-md);">
-        <div>© 2026 DineView AR • WebAR Dining Experience</div>
-        <a href="/">← Back to Menu</a>
+        <div>© 2026 Cjay's DINER • WebAR Dining Experience</div>
+        <a href="/">← Back to Cjay's Menu</a>
       </div>
     </div>
   </footer>

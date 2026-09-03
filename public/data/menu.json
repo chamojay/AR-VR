@@ -1,16 +1,16 @@
 {
   "restaurant": {
-    "name": "DineView AR",
-    "tagline": "Interactive WebAR Restaurant Menu & 3D Culinary Experience",
+    "name": "Cjay's DINER",
+    "tagline": "Want to try our menu in real time? Preview handcrafted dishes in 3D & Augmented Reality on your table.",
     "currency": "LKR",
     "currencySymbol": "Rs.",
     "tableNumber": 7
   },
   "categories": [
-    { "id": "all", "name": "Full Menu", "icon": "🍽️" },
-    { "id": "pizzas", "name": "Artisan Pizzas", "icon": "🍕" },
-    { "id": "asian", "name": "Asian Noodles & Bowls", "icon": "🍜" },
-    { "id": "chef-specials", "name": "Chef's Specials", "icon": "⭐" }
+    { "id": "all", "name": "Full Menu", "icon": "" },
+    { "id": "pizzas", "name": "Artisan Pizzas", "icon": "" },
+    { "id": "asian", "name": "Asian Noodles & Bowls", "icon": "" },
+    { "id": "chef-specials", "name": "Chef's Specials", "icon": "" }
   ],
   "dishes": [
     {

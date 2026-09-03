@@ -37,7 +37,7 @@ async function initDishStudio() {
 function renderDishDetails() {
   if (!currentDish) return;
 
-  document.title = `${currentDish.name} - DineView AR`;
+  document.title = `${currentDish.name} - Cjay's DINER`;
 
   const titleEl = document.getElementById('dishName');
   const priceDisplayEl = document.getElementById('pdpPriceDisplay');
@@ -49,7 +49,7 @@ function renderDishDetails() {
   if (priceDisplayEl) priceDisplayEl.textContent = `Rs. ${Number(currentDish.basePrice).toLocaleString('en-US')}`;
   if (descEl) descEl.textContent = currentDish.shortDescription || currentDish.fullDescription || '';
   if (badgeEl) badgeEl.textContent = currentDish.badge || 'Chef Selection';
-  if (breadcrumbEl) breadcrumbEl.textContent = `Menu / ${currentDish.name}`;
+  if (breadcrumbEl) breadcrumbEl.textContent = `Cjay's Menu / ${currentDish.name}`;
 
   // Update Marker AR link
   const btnMarkerAR = document.getElementById('btnLaunchMarkerAR');

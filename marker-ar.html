@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Marker-Based AR Tracking - DineView AR</title>
-  <meta name="description" content="Anchor 3D food models onto a printed or on-screen Hiro marker using WebAR (A-Frame + AR.js)." />
+  <title>Marker AR Tracking - Cjay's DINER</title>
+  <meta name="description" content="Anchor Cjay's DINER 3D food models onto a Hiro marker using WebAR." />
   
   <!-- A-Frame 1.4.2 & AR.js 3.4.5 -->
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
 
   <link rel="stylesheet" href="/src/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎯</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111111'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='42'%3ECJ%3C/text%3E%3C/svg%3E" />
 </head>
 <body class="ar-body">
 
@@ -60,16 +60,16 @@
     
     <!-- Top HUD Bar -->
     <div class="ar-hud-top">
-      <a href="/dish.html" class="btn-outline-on-image" id="arBackLink" style="padding: 8px 16px; font-size: 0.875rem;">
-        <span>← Exit AR</span>
+      <a href="/" class="btn-outline-on-image" id="arBackLink" style="padding: 8px 16px; font-size: 0.875rem;">
+        <span>← Cjay's Menu</span>
       </a>
 
       <div class="ar-status-pill" id="arStatusBadge">
-        <span>🔍 Scanning for Marker...</span>
+        <span>Scanning for Marker...</span>
       </div>
 
       <button class="btn-outline-on-image" id="btnShowMarkerHelp" style="padding: 8px 16px; font-size: 0.875rem;">
-        <span>🎯 Marker Guide</span>
+        <span>Marker Guide</span>
       </button>
     </div>
 
@@ -79,17 +79,17 @@
       <!-- Interactive Rotation Adjustment Controls -->
       <div style="display: flex; justify-content: center; gap: var(--space-xs);">
         <button class="btn-outline-on-image" id="btnRotateLeft" style="padding: 8px 16px; font-size: 0.8125rem;">
-          <span>↺ -45°</span>
+          <span>-45°</span>
         </button>
         <button class="btn-outline-on-image" id="btnResetRotation" style="padding: 8px 16px; font-size: 0.8125rem;">
-          <span>Reset View</span>
+          <span>Reset</span>
         </button>
         <button class="btn-outline-on-image" id="btnRotateRight" style="padding: 8px 16px; font-size: 0.8125rem;">
-          <span>+45° ↻</span>
+          <span>+45°</span>
         </button>
       </div>
 
-      <!-- Bottom Card (Flat 0px Card) -->
+      <!-- Bottom Card -->
       <div class="ar-card-bottom" style="background: rgba(17, 17, 17, 0.9); backdrop-filter: blur(10px); color: #fff; border-radius: 12px; padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px;">
         <div>
           <div class="body-strong" id="arDishTitle" style="color: #fff; font-size: 1.05rem; font-weight: 700;">Loading Dish...</div>
@@ -120,11 +120,11 @@
         <button id="btnCloseMarkerModal" class="btn-icon-circular" aria-label="Close modal">✕</button>
       </div>
 
-      <p class="body-md" style="font-size: 0.9375rem;">
+      <p class="body-md" style="font-size: 0.9375rem; margin-top: var(--space-sm);">
         Hold this marker pattern in front of your camera or point your mobile phone at another screen displaying this marker:
       </p>
 
-      <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center;">
+      <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center; margin: var(--space-md) 0;">
         <img src="/markers/hiro.svg" alt="Hiro Marker" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 10px; border: 1px solid var(--color-hairline);" />
       </div>
 

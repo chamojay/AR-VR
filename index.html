@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>DineView AR - Interactive WebAR Restaurant Menu</title>
-  <meta name="description" content="Experience chef-curated dishes in 3D and Augmented Reality on your table before ordering." />
+  <title>Cjay's DINER - Interactive WebAR Restaurant Menu</title>
+  <meta name="description" content="Want to try our menu in real time? Experience Cjay's DINER handcrafted dishes in 3D and Augmented Reality on your table." />
   <link rel="stylesheet" href="/src/styles.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍽️</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111111'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='42'%3ECJ%3C/text%3E%3C/svg%3E" />
 </head>
 <body>
 
   <!-- Top Announcement Bar -->
   <header class="utility-bar">
     <div class="container">
-      <div style="font-weight: 600;">✨ WebAR Interactive Menu • View Food in Real 3D</div>
+      <div style="font-weight: 600;">Welcome to Cjay's DINER • Table #07 • Experience Our Dishes in Real-Time AR</div>
       <div class="utility-cluster">
-        <span>Table #07</span>
         <button id="btnTopMarkerGuide" style="font-weight: 600; text-decoration: underline;">Marker Guide</button>
       </div>
     </div>
@@ -26,13 +25,13 @@
     <div class="container nav-container">
       <!-- Brand Logo -->
       <a href="/" class="brand-swoosh-logo" id="brandLogo">
-        <span>DINEVIEW</span>
-        <span class="brand-tag">AR MENU</span>
+        <span>CJAY'S DINER</span>
+        <span class="brand-tag">AR 3D MENU</span>
       </a>
 
       <!-- Center Navigation Links -->
       <div class="nav-links-center">
-        <a href="#menuSection" class="nav-link-item active">Menu</a>
+        <a href="#menuSection" class="nav-link-item active">Our Menu</a>
         <a href="/dish.html?dish=pizza-margherita" class="nav-link-item">3D Studio</a>
         <a href="/marker-ar.html?dish=pizza-margherita" class="nav-link-item">Marker AR</a>
       </div>
@@ -40,7 +39,7 @@
       <!-- Right Nav Cluster -->
       <div class="nav-right-cluster">
         <button class="btn-secondary" id="btnShowMarkerModal" style="padding: 10px 20px; min-height: 40px; font-size: 0.875rem;">
-          <span>🎯 Hiro Marker</span>
+          <span>Marker Guide</span>
         </button>
       </div>
     </div>
@@ -50,17 +49,19 @@
     <!-- Modern Editorial Hero -->
     <section class="container campaign-hero">
       <div class="campaign-tile-hero">
-        <div class="campaign-subtag">Interactive AR Dining Experience</div>
-        <h1 class="campaign-headline">SEE YOUR FOOD<br />IN REAL 3D.</h1>
+        <div class="campaign-subtag" style="color: #4ade80; font-weight: 700; letter-spacing: 0.08em;">
+          WANT TO TRY OUR MENU IN REAL TIME?
+        </div>
+        <h1 class="campaign-headline">EXPERIENCE CJAY'S DINER<br />IN TRUE 3D.</h1>
         <p class="campaign-desc">
-          Preview our chef-curated dishes on your physical table in full 1:1 scale before placing your order.
+          Preview our signature handcrafted cuisine right on your dining table at exact 1:1 scale before placing your order.
         </p>
         <div class="campaign-cta-row">
           <a href="#menuSection" class="btn-primary" style="background-color: var(--color-canvas); color: var(--color-ink);">
-            <span>Explore Menu ↓</span>
+            <span>Explore Menu</span>
           </a>
           <button class="btn-outline-on-image" id="btnExploreHero">
-            <span>🎯 How AR Works</span>
+            <span>How AR Works</span>
           </button>
         </div>
       </div>
@@ -72,10 +73,10 @@
       <!-- Section Title Header Row -->
       <div class="section-header-row">
         <div>
-          <h2 class="section-title">MENU ITEMS</h2>
-          <p class="caption-md">Tap any dish to inspect in 3D and place on your table with AR</p>
+          <h2 class="section-title">CJAY'S SIGNATURE DISHES</h2>
+          <p class="caption-md">Tap any dish below to inspect in 3D or place directly on your table in AR</p>
         </div>
-        <div class="caption-sm" id="dishCountLabel" style="font-weight: 600;">3 Items</div>
+        <div class="caption-sm" id="dishCountLabel" style="font-weight: 600;">3 Signature Dishes</div>
       </div>
 
       <!-- Category Filter Rail -->
@@ -93,24 +94,27 @@
     <!-- How AR Works 3-Step Banner -->
     <section class="container section-container">
       <div style="background-color: var(--color-soft-cloud); padding: var(--space-xl); border-radius: 12px;">
-        <h3 style="font-size: 1.5rem; font-weight: 800; text-transform: uppercase; margin-bottom: var(--space-md);">
-          HOW TO VIEW IN AUGMENTED REALITY
+        <div class="caption-sm" style="font-weight: 800; text-transform: uppercase; color: var(--color-mute); margin-bottom: 4px; letter-spacing: 0.05em;">
+          Interactive Dining at Cjay's DINER
+        </div>
+        <h3 style="font-size: 1.35rem; font-weight: 800; text-transform: uppercase; margin-bottom: var(--space-md); letter-spacing: -0.01em;">
+          How to Experience Our Menu in Augmented Reality
         </h3>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-md);">
           <div style="background: #fff; padding: var(--space-lg); border-radius: 8px; border: 1px solid var(--color-hairline-soft);">
-            <div style="font-size: 1.5rem; margin-bottom: 6px;">1️⃣</div>
-            <div class="body-strong" style="margin-bottom: 4px;">Choose a Dish</div>
-            <p class="caption-md">Select your favorite dish from the menu above.</p>
+            <div style="font-size: 0.8125rem; font-weight: 800; color: var(--color-mute); margin-bottom: 6px; letter-spacing: 0.05em;">STEP 01</div>
+            <div class="body-strong" style="margin-bottom: 4px;">Select a Dish</div>
+            <p class="caption-md">Choose any dish from Cjay's DINER menu collection above.</p>
           </div>
           <div style="background: #fff; padding: var(--space-lg); border-radius: 8px; border: 1px solid var(--color-hairline-soft);">
-            <div style="font-size: 1.5rem; margin-bottom: 6px;">2️⃣</div>
-            <div class="body-strong" style="margin-bottom: 4px;">Choose AR Mode</div>
-            <p class="caption-md">Tap <strong>"Place on Table"</strong> (markerless) or <strong>"Scan Marker"</strong>.</p>
+            <div style="font-size: 0.8125rem; font-weight: 800; color: var(--color-mute); margin-bottom: 6px; letter-spacing: 0.05em;">STEP 02</div>
+            <div class="body-strong" style="margin-bottom: 4px;">Choose Your AR Mode</div>
+            <p class="caption-md">Tap <strong>Place on Table</strong> for surface AR, or <strong>Scan Marker</strong> for Hiro tracking.</p>
           </div>
           <div style="background: #fff; padding: var(--space-lg); border-radius: 8px; border: 1px solid var(--color-hairline-soft);">
-            <div style="font-size: 1.5rem; margin-bottom: 6px;">3️⃣</div>
-            <div class="body-strong" style="margin-bottom: 4px;">Experience at 1:1 Scale</div>
-            <p class="caption-md">Inspect portions, details, and presentation right on your dining table!</p>
+            <div style="font-size: 0.8125rem; font-weight: 800; color: var(--color-mute); margin-bottom: 6px; letter-spacing: 0.05em;">STEP 03</div>
+            <div class="body-strong" style="margin-bottom: 4px;">View in True 1:1 Scale</div>
+            <p class="caption-md">Walk around and inspect portions right on your dining table before ordering.</p>
           </div>
         </div>
       </div>
@@ -126,7 +130,7 @@
       </div>
 
       <p class="body-md" style="font-size: 0.9375rem; margin-top: var(--space-sm);">
-        For <strong>Marker AR Mode</strong>, point your camera at this Hiro pattern:
+        For <strong>Marker AR Mode</strong>, point your camera at this Hiro marker pattern:
       </p>
 
       <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center; margin: var(--space-md) 0;">
@@ -145,7 +149,7 @@
   <footer class="nike-footer">
     <div class="container">
       <div class="footer-bottom-bar" style="border: none; padding-top: var(--space-md);">
-        <div>© 2026 DineView AR • Interactive Augmented Reality Dining Experience</div>
+        <div>© 2026 Cjay's DINER • Interactive Augmented Reality Restaurant Experience</div>
         <div style="display: flex; gap: var(--space-md);">
           <a href="/dish.html?dish=pizza-margherita">3D Studio</a>
           <a href="/marker-ar.html?dish=pizza-margherita">Marker AR</a>

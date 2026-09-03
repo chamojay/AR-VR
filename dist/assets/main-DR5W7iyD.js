@@ -1,6 +1,6 @@
 import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css               */import"./model-viewer-6q-beTJl.js";let o=null,i="all";async function l(){try{const e=await fetch("/data/menu.json");if(!e.ok)throw new Error("Failed to load menu data");o=await e.json(),m(),s(),p(),g()}catch(e){console.error("Menu initialization error:",e);const t=document.getElementById("dishGrid");t&&(t.innerHTML=`
         <div style="grid-column: 1/-1; padding: 3rem; background: var(--color-soft-cloud); text-align: center;">
-          <p style="color: var(--color-sale); font-weight: 700; margin-bottom: 0.5rem;">⚠️ Failed to load menu data</p>
+          <p style="color: var(--color-sale); font-weight: 700; margin-bottom: 0.5rem;">Failed to load menu data</p>
           <p class="caption-md">Please check public/data/menu.json.</p>
         </div>
       `)}}function m(){const e=document.getElementById("categoryBar");!e||!o.categories||(e.innerHTML=o.categories.map(t=>`
@@ -21,7 +21,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css               */import
         <!-- 3D Interactive Stage -->
         <div class="product-card-image">
           <span class="badge-promo card-badge-top">${n.badge||"Chef Selection"}</span>
-          <span class="card-ar-indicator">⚡ 3D & WebAR</span>
+          <span class="card-ar-indicator">3D & WebAR</span>
           
           <model-viewer
             class="product-3d-model"
@@ -43,7 +43,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css               */import
           <div class="card-touch-hint">Touch & Spin 3D</div>
         </div>
 
-        <!-- Clean Meta: Name, Price & Direct Action Buttons -->
+        <!-- Clean Meta: Name, Price & Action Buttons -->
         <div class="product-card-meta">
           <h3 class="product-name" style="font-size: 1.15rem; font-weight: 700;">${n.name}</h3>
 
@@ -58,7 +58,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css               */import
               id="btn-inspect-${n.id}"
               style="flex: 1; padding: 12px 16px; min-height: 44px; font-size: 0.875rem; text-align: center;"
             >
-              <span>View in AR ➔</span>
+              <span>View in AR</span>
             </a>
             <a 
               href="/marker-ar.html?dish=${n.id}" 
@@ -67,7 +67,7 @@ import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css               */import
               style="padding: 12px 16px; min-height: 44px; font-size: 0.875rem;"
               title="Scan with Hiro Marker"
             >
-              <span>🎯 Scan Marker</span>
+              <span>Scan Marker</span>
             </a>
           </div>
         </div>
