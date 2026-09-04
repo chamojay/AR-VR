@@ -6,6 +6,14 @@ import { ConfiguratorState } from './configurator-state.js';
  * tracking state lifecycle, rotation controls, and dish switching.
  */
 
+const baseUrl = import.meta.env.BASE_URL || '/';
+
+function resolveUrl(path) {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+  return `${baseUrl}${path.replace(/^\//, '')}`;
+}
+
 let menuData = null;
 let configurator = null;
 let currentDish = null;
@@ -14,7 +22,7 @@ let currentRotationY = 0;
 
 async function initMarkerAR() {
   try {
-    const res = await fetch('/data/menu.json');
+    const res = await fetch(resolveUrl('data/menu.json'));
     if (!res.ok) throw new Error('Failed to load menu data');
     menuData = await res.json();
 
@@ -47,7 +55,7 @@ function setupAFrameScene() {
   if (!foodModelEntity || !currentDish) return;
 
   const snapshot = configurator.getStateSnapshot();
-  const modelUrl = currentDish.optimizedModel || currentDish.model;
+  const modelUrl = resolveUrl(currentDish.optimizedModel || currentDish.model);
 
   // Set GLB source
   foodModelEntity.setAttribute('gltf-model', modelUrl);
@@ -174,7 +182,7 @@ function updateARHUD() {
 
   if (titleEl) titleEl.textContent = snapshot.dishName;
   if (priceEl) priceEl.textContent = `Rs. ${Number(snapshot.basePrice || snapshot.totalPrice).toLocaleString('en-US')}`;
-  if (backLink) backLink.href = `/dish.html?dish=${snapshot.dishId}`;
+  if (backLink) backLink.href = resolveUrl(`dish.html?dish=${snapshot.dishId}`);
 }
 
 /**

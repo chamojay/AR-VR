@@ -4,13 +4,21 @@ import '@google/model-viewer';
  * DineView AR - Streamlined Dish 3D & AR Controller
  */
 
+const baseUrl = import.meta.env.BASE_URL || '/';
+
+function resolveUrl(path) {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:')) return path;
+  return `${baseUrl}${path.replace(/^\//, '')}`;
+}
+
 let menuData = null;
 let currentDish = null;
 let modelViewerEl = null;
 
 async function initDishStudio() {
   try {
-    const res = await fetch('/data/menu.json');
+    const res = await fetch(resolveUrl('data/menu.json'));
     if (!res.ok) throw new Error('Failed to load menu data');
     menuData = await res.json();
 
@@ -54,7 +62,7 @@ function renderDishDetails() {
   // Update Marker AR link
   const btnMarkerAR = document.getElementById('btnLaunchMarkerAR');
   if (btnMarkerAR) {
-    btnMarkerAR.href = `/marker-ar.html?dish=${currentDish.id}`;
+    btnMarkerAR.href = resolveUrl(`marker-ar.html?dish=${currentDish.id}`);
   }
 }
 
@@ -64,7 +72,7 @@ function renderDishDetails() {
 function setupModelViewerControls() {
   if (!modelViewerEl || !currentDish) return;
 
-  modelViewerEl.src = currentDish.optimizedModel || currentDish.model;
+  modelViewerEl.src = resolveUrl(currentDish.optimizedModel || currentDish.model);
   modelViewerEl.alt = `${currentDish.name} in 3D WebAR`;
   if (currentDish.cameraOrbit) modelViewerEl.cameraOrbit = currentDish.cameraOrbit;
   if (currentDish.minCameraOrbit) modelViewerEl.minCameraOrbit = currentDish.minCameraOrbit;
@@ -132,7 +140,7 @@ function renderOtherDishesSwitcher() {
 
   container.innerHTML = menuData.dishes.map(d => `
     <a 
-      href="/dish.html?dish=${d.id}" 
+      href="${resolveUrl(`dish.html?dish=${d.id}`)}" 
       class="filter-chip ${d.id === currentDish.id ? 'active' : ''}"
       style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; font-size: 0.8125rem;"
     >
