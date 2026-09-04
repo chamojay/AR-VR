@@ -9,7 +9,7 @@ let activeCategory = 'all';
 
 async function initMenu() {
   try {
-    const res = await fetch('/data/menu.json');
+    const res = await fetch('./data/menu.json');
     if (!res.ok) throw new Error('Failed to load menu data');
     menuData = await res.json();
     
@@ -129,7 +129,7 @@ function renderDishGrid() {
 
           <div class="product-cta-row">
             <a 
-              href="/dish.html?dish=${dish.id}" 
+              href="./dish.html?dish=${dish.id}" 
               class="btn-primary"
               id="btn-inspect-${dish.id}"
               style="flex: 1; padding: 12px 16px; min-height: 44px; font-size: 0.875rem; text-align: center;"
@@ -137,7 +137,7 @@ function renderDishGrid() {
               <span>View in AR</span>
             </a>
             <a 
-              href="/marker-ar.html?dish=${dish.id}" 
+              href="./marker-ar.html?dish=${dish.id}" 
               class="btn-secondary"
               id="btn-ar-${dish.id}"
               style="padding: 12px 16px; min-height: 44px; font-size: 0.875rem;"

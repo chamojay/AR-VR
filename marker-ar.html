@@ -10,7 +10,7 @@
   <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
 
-  <link rel="stylesheet" href="/src/styles.css" />
+  <link rel="stylesheet" href="./src/styles.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111111'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='42'%3ECJ%3C/text%3E%3C/svg%3E" />
 </head>
 <body class="ar-body">
@@ -60,7 +60,7 @@
     
     <!-- Top HUD Bar -->
     <div class="ar-hud-top">
-      <a href="/" class="btn-outline-on-image" id="arBackLink" style="padding: 8px 16px; font-size: 0.875rem;">
+      <a href="./" class="btn-outline-on-image" id="arBackLink" style="padding: 8px 16px; font-size: 0.875rem;">
         <span>← Cjay's Menu</span>
       </a>
 
@@ -125,17 +125,17 @@
       </p>
 
       <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center; margin: var(--space-md) 0;">
-        <img src="/markers/hiro.svg" alt="Hiro Marker" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 10px; border: 1px solid var(--color-hairline);" />
+        <img src="./markers/hiro.svg" alt="Hiro Marker" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 10px; border: 1px solid var(--color-hairline);" />
       </div>
 
       <div style="display: flex; gap: var(--space-sm); justify-content: flex-end;">
-        <a href="/markers/hiro.svg" download="hiro-marker.svg" class="btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
+        <a href="./markers/hiro.svg" download="hiro-marker.svg" class="btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
           <span>Download SVG</span>
         </a>
       </div>
     </div>
   </div>
 
-  <script type="module" src="/src/marker-ar.js"></script>
+  <script type="module" src="./src/marker-ar.js"></script>
 </body>
 </html>

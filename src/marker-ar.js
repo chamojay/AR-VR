@@ -14,7 +14,7 @@ let currentRotationY = 0;
 
 async function initMarkerAR() {
   try {
-    const res = await fetch('/data/menu.json');
+    const res = await fetch('./data/menu.json');
     if (!res.ok) throw new Error('Failed to load menu data');
     menuData = await res.json();
 
@@ -174,7 +174,7 @@ function updateARHUD() {
 
   if (titleEl) titleEl.textContent = snapshot.dishName;
   if (priceEl) priceEl.textContent = `Rs. ${Number(snapshot.basePrice || snapshot.totalPrice).toLocaleString('en-US')}`;
-  if (backLink) backLink.href = `/dish.html?dish=${snapshot.dishId}`;
+  if (backLink) backLink.href = `./dish.html?dish=${snapshot.dishId}`;
 }
 
 /**

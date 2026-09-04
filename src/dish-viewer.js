@@ -10,7 +10,7 @@ let modelViewerEl = null;
 
 async function initDishStudio() {
   try {
-    const res = await fetch('/data/menu.json');
+    const res = await fetch('./data/menu.json');
     if (!res.ok) throw new Error('Failed to load menu data');
     menuData = await res.json();
 
@@ -54,7 +54,7 @@ function renderDishDetails() {
   // Update Marker AR link
   const btnMarkerAR = document.getElementById('btnLaunchMarkerAR');
   if (btnMarkerAR) {
-    btnMarkerAR.href = `/marker-ar.html?dish=${currentDish.id}`;
+    btnMarkerAR.href = `./marker-ar.html?dish=${currentDish.id}`;
   }
 }
 
@@ -132,7 +132,7 @@ function renderOtherDishesSwitcher() {
 
   container.innerHTML = menuData.dishes.map(d => `
     <a 
-      href="/dish.html?dish=${d.id}" 
+      href="./dish.html?dish=${d.id}" 
       class="filter-chip ${d.id === currentDish.id ? 'active' : ''}"
       style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; font-size: 0.8125rem;"
     >
