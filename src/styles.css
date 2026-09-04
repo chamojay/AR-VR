@@ -754,44 +754,165 @@ button {
   border: 1px solid var(--color-hairline);
 }
 
-/* Hotspots on Model */
-.pdp-hotspot {
-  background: var(--color-ink);
-  color: var(--color-on-primary);
-  border: 2px solid var(--color-canvas);
-  border-radius: var(--radius-full);
-  width: 22px;
-  height: 22px;
+/* ==========================================================================
+   Ash-Colored Interactive Hotspot System (Markerless 3D & Marker AR)
+   ========================================================================== */
+
+/* Hotspot Dot (Ash Gray - Subtle & Non-Disruptive) */
+.hotspot-dot {
+  background: rgba(82, 82, 91, 0.45); /* Ash/slate subtle translucent */
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.15s ease;
+  position: relative;
+  padding: 0;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1), background 0.2s, border-color 0.2s, opacity 0.2s;
+  z-index: 15;
+  outline: none;
 }
 
-.pdp-hotspot:hover {
+.hotspot-dot:hover,
+.hotspot-dot:focus-visible,
+.hotspot-dot.active {
   transform: scale(1.25);
+  background: rgba(63, 63, 70, 0.85); /* Slightly darker ash on focus */
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4), 0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
-.pdp-annotation {
-  display: none;
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--color-ink);
-  color: var(--color-on-primary);
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  width: max-content;
-  max-width: 200px;
-  font-size: 0.75rem;
+/* Ash Core Dot */
+.hotspot-dot-core {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #52525b; /* Solid ash gray */
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.7);
   pointer-events: none;
-  z-index: 20;
 }
 
-.pdp-hotspot:hover .pdp-annotation {
-  display: block;
+/* Subtle Pulsing Ring */
+.hotspot-dot-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(161, 161, 170, 0.55);
+  animation: hotspot-pulse-ash 2.4s infinite cubic-bezier(0.2, 0, 0, 1);
+  pointer-events: none;
+}
+
+@keyframes hotspot-pulse-ash {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* When hotspots are hidden by the toggle */
+.hotspots-hidden .hotspot-dot {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: scale(0.5) !important;
+}
+
+/* 3D Stage Floating Hotspot Detail Card Popup */
+.hotspot-popup-card {
+  position: absolute;
+  bottom: 72px;
+  left: 16px;
+  right: 16px;
+  max-width: 440px;
+  margin: 0 auto;
+  background: rgba(17, 17, 17, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 30;
+  animation: hotspotCardFadeIn 0.25s cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+.hotspot-popup-card.active {
+  display: flex;
+}
+
+@keyframes hotspotCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Mode Toggle Pill Button */
+.hotspot-mode-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hotspot-mode-toggle-btn.active {
+  background: var(--color-ink);
+  color: var(--color-on-primary);
+  border-color: var(--color-ink);
+}
+
+.hotspot-mode-toggle-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Ingredients List Chips in PDP */
+.ingredient-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-soft-cloud);
+  color: var(--color-ink);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1px solid var(--color-hairline-soft);
+  transition: background-color 0.15s ease;
+}
+
+.ingredient-chip:hover {
+  background-color: var(--color-hairline-soft);
 }
 
 /* PDP Right Details Column */

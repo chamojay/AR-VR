@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build outputs (GitHub Actions builds this in the cloud)
+dist/
+
+# Local Environment & Logs
+.env
+.env.local
+.DS_Store
+Thumbs.db
+*.log

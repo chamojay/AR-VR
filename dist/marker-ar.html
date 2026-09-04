@@ -11,9 +11,9 @@
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111111'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='42'%3ECJ%3C/text%3E%3C/svg%3E" />
-  <script type="module" crossorigin src="/AR-VR/assets/markerAr-Db1_Q5Sr.js"></script>
+  <script type="module" crossorigin src="/AR-VR/assets/markerAr-CzspqEZR.js"></script>
   <link rel="modulepreload" crossorigin href="/AR-VR/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="/AR-VR/assets/styles-B0h2UdAo.css">
+  <link rel="stylesheet" crossorigin href="/AR-VR/assets/styles-z7KB-j2C.css">
 </head>
 <body class="ar-body">
 
@@ -49,7 +49,7 @@
       ></a-entity>
     </a-marker>
 
-    <a-entity camera></a-entity>
+    <a-entity camera cursor="rayOrigin: mouse; fuse: false" raycaster="objects: .clickable, .ar-hotspot-target"></a-entity>
   </a-scene>
 
   <!-- AR Scanning Targeting Reticle -->
@@ -70,14 +70,37 @@
         <span>Scanning for Marker...</span>
       </div>
 
-      <button class="btn-outline-on-image" id="btnShowMarkerHelp" style="padding: 8px 16px; font-size: 0.875rem;">
-        <span>Marker Guide</span>
-      </button>
+      <div style="display: flex; gap: 6px;">
+        <button class="btn-outline-on-image" id="btnToggleARHotspots" style="padding: 8px 12px; font-size: 0.8125rem;">
+          <span>✨ Dots (ON)</span>
+        </button>
+        <button class="btn-outline-on-image" id="btnShowIngredientsModal" style="padding: 8px 12px; font-size: 0.8125rem;">
+          <span>📋 Recipe</span>
+        </button>
+        <button class="btn-outline-on-image" id="btnShowMarkerHelp" style="padding: 8px 12px; font-size: 0.8125rem;">
+          <span>Marker Guide</span>
+        </button>
+      </div>
     </div>
 
     <!-- Bottom HUD Controls & Information Card -->
     <div class="ar-hud-bottom">
       
+      <!-- In-AR Floating Hotspot Ingredient Detail Popup -->
+      <div class="ar-hotspot-popup-card" id="arHotspotPopup" style="display: none; background: rgba(17, 17, 17, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); color: #fff; border-radius: 14px; padding: 14px 18px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+          <div>
+            <span class="badge-promo" style="background: rgba(255, 255, 255, 0.15); color: #4ade80; padding: 2px 8px; font-size: 0.6875rem;" id="arHotspotBadge">INGREDIENT DETAIL</span>
+            <h4 id="arHotspotTitle" style="color: #fff; font-size: 1.1rem; font-weight: 700; margin: 4px 0 2px 0;">Ingredient</h4>
+          </div>
+          <button id="btnCloseARHotspotPopup" class="btn-icon-circular" style="width: 28px; height: 28px; min-width: 28px; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); font-size: 0.75rem; cursor: pointer;" aria-label="Close detail">✕</button>
+        </div>
+        <p id="arHotspotDesc" style="color: #d4d4d8; font-size: 0.875rem; line-height: 1.45; margin: 0;"></p>
+        <div style="margin-top: 6px; font-size: 0.75rem; color: #a1a1aa; text-align: right;">
+          Touch any ash dot on the dish to inspect
+        </div>
+      </div>
+
       <!-- Interactive Rotation Adjustment Controls -->
       <div style="display: flex; justify-content: center; gap: var(--space-xs);">
         <button class="btn-outline-on-image" id="btnRotateLeft" style="padding: 8px 16px; font-size: 0.8125rem;">
@@ -111,6 +134,32 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- Ingredients & Dietary Modal for Marker AR -->
+  <div class="modal-backdrop" id="ingredientsModal" role="dialog" aria-modal="true" aria-labelledby="ingredientsModalTitle">
+    <div class="modal-content-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--color-hairline); padding-bottom: var(--space-sm);">
+        <h3 id="ingredientsModalTitle" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">Dish Ingredients & Sourcing</h3>
+        <button id="btnCloseIngredientsModal" class="btn-icon-circular" aria-label="Close modal">✕</button>
+      </div>
+
+      <div style="margin-top: var(--space-md);">
+        <div class="body-strong" id="arModalDishName" style="font-size: 1.1rem; margin-bottom: 4px;">Dish</div>
+        <p class="caption-md" id="arModalDishDesc" style="color: var(--color-mute); margin-bottom: var(--space-md);"></p>
+
+        <div style="font-weight: 700; font-size: 0.8125rem; text-transform: uppercase; color: var(--color-mute); margin-bottom: 8px;">
+          Fresh Handcrafted Ingredients
+        </div>
+        <div id="arModalIngredientsList" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-md);">
+          <!-- Injected dynamically -->
+        </div>
+
+        <div id="arModalAllergensBlock" style="background: var(--color-soft-cloud); padding: 12px; border-radius: 8px; font-size: 0.8125rem; line-height: 1.5;">
+          <!-- Allergens injected dynamically -->
+        </div>
+      </div>
     </div>
   </div>
 
