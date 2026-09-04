@@ -30,8 +30,6 @@ async function initDishStudio() {
 
     renderDishDetails();
     setupModelViewerControls();
-    setupDishHotspots();
-    setupHotspotToggleAndControls();
     setupARLaunchers();
     renderIngredientsAndDietary();
     renderOtherDishesSwitcher();
@@ -273,6 +271,21 @@ function setupHotspotToggleAndControls() {
   }
 }
 
+function getIngredientIcon(ing) {
+  const lower = ing.toLowerCase();
+  if (lower.includes('sourdough') || lower.includes('flour') || lower.includes('crust')) return '🌾';
+  if (lower.includes('mozzarella') || lower.includes('cheese') || lower.includes('stracciatella') || lower.includes('taleggio') || lower.includes('fior di latte')) return '🧀';
+  if (lower.includes('tomato') || lower.includes('passata') || lower.includes('marzano')) return '🍅';
+  if (lower.includes('basil') || lower.includes('thyme') || lower.includes('arugula') || lower.includes('herb') || lower.includes('cabbage') || lower.includes('greens') || lower.includes('scallion')) return '🌿';
+  if (lower.includes('truffle') || lower.includes('mushroom') || lower.includes('porcini') || lower.includes('shiitake')) return '🍄';
+  if (lower.includes('oil') || lower.includes('olive') || lower.includes('drizzle')) return '🫒';
+  if (lower.includes('udon') || lower.includes('noodle')) return '🍜';
+  if (lower.includes('katsuobushi') || lower.includes('bonito') || lower.includes('fish') || lower.includes('dashi')) return '🐟';
+  if (lower.includes('salt') || lower.includes('pepper') || lower.includes('sesame')) return '🧂';
+  if (lower.includes('garlic') || lower.includes('butter')) return '🧄';
+  return '✨';
+}
+
 /**
  * Render Ingredients & Nutritional Highlights in PDP
  */
@@ -284,12 +297,47 @@ function renderIngredientsAndDietary() {
 
   if (listEl) {
     const ingredients = currentDish.ingredients || [];
-    listEl.innerHTML = ingredients.map(ing => `
-      <span class="ingredient-chip">
-        <span style="color: #4ade80;">•</span>
-        <span>${ing}</span>
-      </span>
-    `).join('');
+    listEl.innerHTML = ingredients.map((ing, idx) => {
+      const icon = getIngredientIcon(ing);
+      return `
+        <div 
+          class="interactive-ingredient-card" 
+          data-index="${idx}"
+          style="background: var(--color-canvas); border: 1px solid var(--color-hairline); border-radius: 10px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.03);"
+        >
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--color-soft-cloud); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+              ${icon}
+            </div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9375rem; color: var(--color-ink);">${ing}</div>
+              <div style="font-size: 0.75rem; color: var(--color-mute); margin-top: 2px;">Fresh authentic artisan component</div>
+            </div>
+          </div>
+          <span style="font-size: 0.75rem; font-weight: 700; color: #16a34a; background: rgba(34, 197, 94, 0.1); padding: 4px 10px; border-radius: 9999px; white-space: nowrap;">
+            Inspect 3D ➔
+          </span>
+        </div>
+      `;
+    }).join('');
+
+    // Attach click listeners to cards to rotate & spotlight 3D model
+    listEl.querySelectorAll('.interactive-ingredient-card').forEach((card, idx) => {
+      card.addEventListener('click', () => {
+        listEl.querySelectorAll('.interactive-ingredient-card').forEach(c => {
+          c.style.borderColor = 'var(--color-hairline)';
+          c.style.background = 'var(--color-canvas)';
+        });
+        card.style.borderColor = '#16a34a';
+        card.style.background = 'rgba(34, 197, 94, 0.05)';
+
+        if (modelViewerEl) {
+          const angles = ['35deg 65deg 0.7m', '-45deg 55deg 0.72m', '55deg 70deg 0.65m', '0deg 50deg 0.68m', '-80deg 60deg 0.7m', '70deg 50deg 0.68m'];
+          modelViewerEl.cameraOrbit = angles[idx % angles.length];
+          modelViewerEl.jumpCameraToGoal();
+        }
+      });
+    });
   }
 
   if (allergensEl) {

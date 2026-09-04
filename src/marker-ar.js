@@ -35,16 +35,13 @@ async function initMarkerAR() {
     configurator.setPortion(portionKey);
 
     currentDish = configurator.getCurrentDish();
-    foodModelEntity = document.getElementById('foodModelEntity');
-
     setupAFrameScene();
-    setupARHotspots();
     setupMarkerEvents();
     setupHUDControls();
-    setupHotspotHUDHandlers();
     updateARHUD();
     setupMarkerModal();
     setupIngredientsModal();
+    ensureVideoPlayback();
 
   } catch (err) {
     console.error('Error initializing marker AR:', err);
@@ -52,20 +49,66 @@ async function initMarkerAR() {
 }
 
 /**
+ * Mobile Camera Video Stream Streamlines for Safari & Chrome
+ */
+function ensureVideoPlayback() {
+  const checkVideo = () => {
+    const video = document.querySelector('#arjs-video') || document.querySelector('video');
+    if (video) {
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+      video.setAttribute('muted', 'true');
+      video.muted = true;
+      if (video.paused) {
+        video.play().catch(() => {});
+      }
+    }
+  };
+  checkVideo();
+  const timer = setInterval(checkVideo, 500);
+  window.addEventListener('touchstart', () => {
+    checkVideo();
+  }, { once: true });
+}
+
+let currentScaleFactor = 1.0;
+
+/**
  * Configure A-Frame Model Source, Scale, and Position
  */
 function setupAFrameScene() {
   if (!foodModelEntity || !currentDish) return;
 
-  const snapshot = configurator.getStateSnapshot();
   const modelUrl = resolveUrl(currentDish.optimizedModel || currentDish.model);
 
   // Set GLB source
   foodModelEntity.setAttribute('gltf-model', modelUrl);
 
-  // Set calibrated scale based on dish & portion multiplier
-  const markerScale = snapshot.markerScale || '0.35 0.35 0.35';
-  foodModelEntity.setAttribute('scale', markerScale);
+  foodModelEntity.addEventListener('model-loaded', () => {
+    console.log('3D GLTF Food Model loaded successfully:', modelUrl);
+    const obj = foodModelEntity.getObject3D('mesh');
+    if (obj) {
+      obj.traverse((child) => {
+        if (child.isMesh && child.material) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+          if (child.material.map) {
+            child.material.map.anisotropy = 8;
+            child.material.map.needsUpdate = true;
+          }
+          child.material.roughness = Math.max(0.15, child.material.roughness || 0.4);
+          child.material.needsUpdate = true;
+        }
+      });
+    }
+  });
+
+  foodModelEntity.addEventListener('model-error', (e) => {
+    console.error('Failed to load 3D GLTF Food Model:', modelUrl, e);
+  });
+
+  // Apply default large scale
+  updateModelScale();
 
   // Set calibrated position above the marker
   const markerPos = currentDish.markerPosition || '0 0.03 0';
@@ -74,6 +117,22 @@ function setupAFrameScene() {
   // Set initial rotation
   currentRotationY = 0;
   foodModelEntity.setAttribute('rotation', `0 ${currentRotationY} 0`);
+}
+
+/**
+ * Update 3D Food Model Scale
+ */
+function updateModelScale() {
+  if (!foodModelEntity || !currentDish) return;
+  const snapshot = configurator ? configurator.getStateSnapshot() : {};
+  const baseScaleStr = snapshot.markerScale || currentDish.markerScale || '3.2 3.2 3.2';
+  const parts = baseScaleStr.split(' ').map(parseFloat);
+  if (parts.length === 3 && !parts.some(isNaN)) {
+    const finalScale = `${(parts[0] * currentScaleFactor).toFixed(3)} ${(parts[1] * currentScaleFactor).toFixed(3)} ${(parts[2] * currentScaleFactor).toFixed(3)}`;
+    foodModelEntity.setAttribute('scale', finalScale);
+  } else {
+    foodModelEntity.setAttribute('scale', `${3.2 * currentScaleFactor} ${3.2 * currentScaleFactor} ${3.2 * currentScaleFactor}`);
+  }
 }
 
 /**
@@ -87,8 +146,9 @@ function setupMarkerEvents() {
   if (!marker) return;
 
   marker.addEventListener('markerFound', () => {
+    console.log('Hiro Marker Found!');
     if (statusBadge) {
-      statusBadge.className = 'ar-status-badge locked';
+      statusBadge.className = 'ar-status-pill locked';
       statusBadge.innerHTML = 'Tracking Active';
     }
     if (reticle) {
@@ -97,8 +157,9 @@ function setupMarkerEvents() {
   });
 
   marker.addEventListener('markerLost', () => {
+    console.log('Hiro Marker Lost');
     if (statusBadge) {
-      statusBadge.className = 'ar-status-badge lost';
+      statusBadge.className = 'ar-status-pill lost';
       statusBadge.innerHTML = 'Marker Lost - Realign';
     }
     if (reticle) {
@@ -143,7 +204,27 @@ function setupHUDControls() {
   if (btnResetRotation) {
     btnResetRotation.addEventListener('click', () => {
       currentRotationY = 0;
+      currentScaleFactor = 1.0;
       updateModelRotation();
+      updateModelScale();
+    });
+  }
+
+  // Size / Scale Adjustment Buttons
+  const btnScaleUp = document.getElementById('btnScaleUp');
+  const btnScaleDown = document.getElementById('btnScaleDown');
+
+  if (btnScaleUp) {
+    btnScaleUp.addEventListener('click', () => {
+      currentScaleFactor = Math.min(6.0, currentScaleFactor + 0.4);
+      updateModelScale();
+    });
+  }
+
+  if (btnScaleDown) {
+    btnScaleDown.addEventListener('click', () => {
+      currentScaleFactor = Math.max(0.3, currentScaleFactor - 0.3);
+      updateModelScale();
     });
   }
 
@@ -160,112 +241,7 @@ function setupHUDControls() {
       configurator.setDish(e.target.value);
       currentDish = configurator.getCurrentDish();
       setupAFrameScene();
-      setupARHotspots();
       updateARHUD();
-    });
-  }
-}
-
-let arHotspotsVisible = true;
-
-/**
- * Configure 3D Ash-Colored Hotspots Anchored to Food Model
- */
-function setupARHotspots() {
-  if (!foodModelEntity || !currentDish) return;
-
-  // Clear existing hotspot entities
-  foodModelEntity.querySelectorAll('.ar-hotspot-group').forEach(el => el.remove());
-
-  const hotspots = currentDish.hotspots || [];
-  if (hotspots.length === 0) return;
-
-  hotspots.forEach((h, idx) => {
-    const rawPos = (h.position || '0 0.05 0').replace(/m/g, '').trim();
-    
-    // Create container entity
-    const groupEl = document.createElement('a-entity');
-    groupEl.setAttribute('class', 'ar-hotspot-group');
-    groupEl.setAttribute('position', rawPos);
-    groupEl.setAttribute('visible', arHotspotsVisible ? 'true' : 'false');
-
-    // 3D Ash-Gray Interactive Sphere
-    const sphereEl = document.createElement('a-sphere');
-    sphereEl.setAttribute('radius', '0.016');
-    sphereEl.setAttribute('color', '#52525b'); /* Subtle Ash Gray */
-    sphereEl.setAttribute('material', 'roughness: 0.45; opacity: 0.88; transparent: true;');
-    sphereEl.setAttribute('class', 'clickable ar-hotspot-target');
-
-    // Subtle Ash Outer Ring
-    const ringEl = document.createElement('a-ring');
-    ringEl.setAttribute('radius-inner', '0.022');
-    ringEl.setAttribute('radius-outer', '0.028');
-    ringEl.setAttribute('color', '#a1a1aa');
-    ringEl.setAttribute('material', 'opacity: 0.6; transparent: true; side: double;');
-    ringEl.setAttribute('rotation', '-90 0 0');
-
-    groupEl.appendChild(sphereEl);
-    groupEl.appendChild(ringEl);
-
-    // Tap / Click Event Handlers
-    const handleTrigger = (e) => {
-      if (e) e.stopPropagation();
-      displayARHotspotPopup(h, idx);
-    };
-
-    sphereEl.addEventListener('click', handleTrigger);
-    sphereEl.addEventListener('touchstart', handleTrigger);
-    groupEl.addEventListener('click', handleTrigger);
-
-    foodModelEntity.appendChild(groupEl);
-  });
-}
-
-/**
- * Display In-AR Hotspot Pop-up Card
- */
-function displayARHotspotPopup(hotspot, index) {
-  const popup = document.getElementById('arHotspotPopup');
-  const titleEl = document.getElementById('arHotspotTitle');
-  const descEl = document.getElementById('arHotspotDesc');
-  const badgeEl = document.getElementById('arHotspotBadge');
-
-  if (!popup) return;
-
-  if (titleEl) titleEl.textContent = hotspot.title;
-  if (descEl) descEl.textContent = hotspot.desc;
-  if (badgeEl) badgeEl.textContent = `INGREDIENT #${index + 1}`;
-
-  popup.style.display = 'block';
-}
-
-/**
- * Setup In-AR HUD Controls for Hotspots
- */
-function setupHotspotHUDHandlers() {
-  const btnToggle = document.getElementById('btnToggleARHotspots');
-  const btnClose = document.getElementById('btnCloseARHotspotPopup');
-  const popup = document.getElementById('arHotspotPopup');
-
-  if (btnToggle) {
-    btnToggle.addEventListener('click', () => {
-      arHotspotsVisible = !arHotspotsVisible;
-      if (foodModelEntity) {
-        foodModelEntity.querySelectorAll('.ar-hotspot-group').forEach(el => {
-          el.setAttribute('visible', arHotspotsVisible ? 'true' : 'false');
-        });
-      }
-      btnToggle.innerHTML = `<span>✨ Dots (${arHotspotsVisible ? 'ON' : 'OFF'})</span>`;
-      btnToggle.style.backgroundColor = arHotspotsVisible ? '#111' : '#444';
-      if (!arHotspotsVisible && popup) {
-        popup.style.display = 'none';
-      }
-    });
-  }
-
-  if (btnClose && popup) {
-    btnClose.addEventListener('click', () => {
-      popup.style.display = 'none';
     });
   }
 }

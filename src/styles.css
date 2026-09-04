@@ -1069,11 +1069,56 @@ button {
    Full-Screen Marker AR Interface (A-Frame + AR.js)
    ========================================================================== */
 
-.ar-body {
-  margin: 0;
+body.ar-body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   background-color: #000;
   user-select: none;
+}
+
+/* Ensure AR.js camera video is centered, covers full screen without white bars */
+body.ar-body #arjs-video,
+body.ar-body video {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: cover !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 0 !important;
+  display: block !important;
+}
+
+body.ar-body a-scene {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 1 !important;
+  background: transparent !important;
+}
+
+body.ar-body .a-canvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  z-index: 1 !important;
 }
 
 .ar-hud-overlay {
