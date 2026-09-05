@@ -6,29 +6,29 @@
   <title>Marker AR Tracking - Cjay's DINER</title>
   <meta name="description" content="Anchor Cjay's DINER 3D food models onto a Hiro marker using WebAR." />
   
-  <!-- A-Frame 1.4.2 & AR.js 3.4.5 -->
-  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <!-- A-Frame 1.3.0 & AR.js 3.4.5 (Officially tested compatible pair) -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.js"></script>
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111111'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='42'%3ECJ%3C/text%3E%3C/svg%3E" />
-  <script type="module" crossorigin src="./assets/markerAr-qeSMiZsL.js"></script>
+  <script type="module" crossorigin src="./assets/markerAr-BzMidAlH.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="./assets/styles-z7KB-j2C.css">
+  <link rel="stylesheet" crossorigin href="./assets/styles-BL8tUmAK.css">
 </head>
 <body class="ar-body">
 
-  <!-- A-Frame AR Scene -->
+  <!-- A-Frame AR Scene with Enhanced PBR Studio Rendering -->
   <a-scene
     embedded
-    arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3; trackingMethod: best;"
+    arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono; trackingMethod: best;"
     vr-mode-ui="enabled: false"
-    renderer="logarithmicDepthBuffer: true; precision: medium; antialias: true; alpha: true;"
-    style="position: fixed; inset: 0; z-index: 1;"
+    renderer="colorManagement: true; physicallyCorrectLights: true; toneMapping: ACESFilmic; exposure: 1.15; precision: high; antialias: true; alpha: true; logarithmicDepthBuffer: true;"
   >
-    <!-- Lighting Setup -->
-    <a-entity light="type: ambient; color: #ffffff; intensity: 1.2"></a-entity>
-    <a-entity light="type: directional; color: #ffffff; intensity: 1.5" position="1 4 2"></a-entity>
-    <a-entity light="type: directional; color: #e5e5e5; intensity: 0.6" position="-2 2 -1"></a-entity>
+    <!-- Professional Culinary 3-Point Lighting Setup -->
+    <a-entity light="type: ambient; color: #ffffff; intensity: 1.4"></a-entity>
+    <a-entity light="type: directional; color: #fff8e7; intensity: 2.2" position="1.5 5 2.5"></a-entity>
+    <a-entity light="type: directional; color: #ffd8a8; intensity: 1.3" position="-2 3 1"></a-entity>
+    <a-entity light="type: directional; color: #d0ebff; intensity: 0.9" position="0 2 -3"></a-entity>
 
     <!-- Hiro Marker Anchor -->
     <a-marker
@@ -36,9 +36,7 @@
       id="hiroMarker"
       emitevents="true"
       smooth="true"
-      smoothCount="10"
-      smoothTolerance="0.01"
-      smoothThreshold="5"
+      smoothCount="5"
     >
       <!-- Dynamically Loaded 3D Food Model -->
       <a-entity
@@ -71,13 +69,10 @@
       </div>
 
       <div style="display: flex; gap: 6px;">
-        <button class="btn-outline-on-image" id="btnToggleARHotspots" style="padding: 8px 12px; font-size: 0.8125rem;">
-          <span>✨ Dots (ON)</span>
+        <button class="btn-outline-on-image" id="btnShowIngredientsModal" style="padding: 8px 14px; font-size: 0.8125rem;">
+          <span>📋 Recipe & Info</span>
         </button>
-        <button class="btn-outline-on-image" id="btnShowIngredientsModal" style="padding: 8px 12px; font-size: 0.8125rem;">
-          <span>📋 Recipe</span>
-        </button>
-        <button class="btn-outline-on-image" id="btnShowMarkerHelp" style="padding: 8px 12px; font-size: 0.8125rem;">
+        <button class="btn-outline-on-image" id="btnShowMarkerHelp" style="padding: 8px 14px; font-size: 0.8125rem;">
           <span>Marker Guide</span>
         </button>
       </div>
@@ -85,32 +80,23 @@
 
     <!-- Bottom HUD Controls & Information Card -->
     <div class="ar-hud-bottom">
-      
-      <!-- In-AR Floating Hotspot Ingredient Detail Popup -->
-      <div class="ar-hotspot-popup-card" id="arHotspotPopup" style="display: none; background: rgba(17, 17, 17, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); color: #fff; border-radius: 14px; padding: 14px 18px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
-          <div>
-            <span class="badge-promo" style="background: rgba(255, 255, 255, 0.15); color: #4ade80; padding: 2px 8px; font-size: 0.6875rem;" id="arHotspotBadge">INGREDIENT DETAIL</span>
-            <h4 id="arHotspotTitle" style="color: #fff; font-size: 1.1rem; font-weight: 700; margin: 4px 0 2px 0;">Ingredient</h4>
-          </div>
-          <button id="btnCloseARHotspotPopup" class="btn-icon-circular" style="width: 28px; height: 28px; min-width: 28px; background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); font-size: 0.75rem; cursor: pointer;" aria-label="Close detail">✕</button>
-        </div>
-        <p id="arHotspotDesc" style="color: #d4d4d8; font-size: 0.875rem; line-height: 1.45; margin: 0;"></p>
-        <div style="margin-top: 6px; font-size: 0.75rem; color: #a1a1aa; text-align: right;">
-          Touch any ash dot on the dish to inspect
-        </div>
-      </div>
 
-      <!-- Interactive Rotation Adjustment Controls -->
-      <div style="display: flex; justify-content: center; gap: var(--space-xs);">
-        <button class="btn-outline-on-image" id="btnRotateLeft" style="padding: 8px 16px; font-size: 0.8125rem;">
-          <span>-45°</span>
+      <!-- Interactive Rotation & Scale Controls -->
+      <div style="display: flex; justify-content: center; gap: var(--space-xs); flex-wrap: wrap;">
+        <button class="btn-outline-on-image" id="btnScaleDown" style="padding: 8px 14px; font-size: 0.8125rem;">
+          <span>🔍 Size -</span>
         </button>
-        <button class="btn-outline-on-image" id="btnResetRotation" style="padding: 8px 16px; font-size: 0.8125rem;">
+        <button class="btn-outline-on-image" id="btnRotateLeft" style="padding: 8px 14px; font-size: 0.8125rem;">
+          <span>↶ -45°</span>
+        </button>
+        <button class="btn-outline-on-image" id="btnResetRotation" style="padding: 8px 14px; font-size: 0.8125rem;">
           <span>Reset</span>
         </button>
-        <button class="btn-outline-on-image" id="btnRotateRight" style="padding: 8px 16px; font-size: 0.8125rem;">
-          <span>+45°</span>
+        <button class="btn-outline-on-image" id="btnRotateRight" style="padding: 8px 14px; font-size: 0.8125rem;">
+          <span>↷ +45°</span>
+        </button>
+        <button class="btn-outline-on-image" id="btnScaleUp" style="padding: 8px 14px; font-size: 0.8125rem;">
+          <span>🔍 Size +</span>
         </button>
       </div>
 
@@ -176,12 +162,12 @@
       </p>
 
       <div style="background-color: var(--color-soft-cloud); padding: var(--space-lg); text-align: center; margin: var(--space-md) 0;">
-        <img src="./markers/hiro.svg" alt="Hiro Marker" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 10px; border: 1px solid var(--color-hairline);" />
+        <img src="./markers/hiro.png" alt="Hiro Marker" style="width: 220px; height: 220px; display: inline-block; background: #fff; padding: 12px; border: 1px solid var(--color-hairline); object-fit: contain;" />
       </div>
 
       <div style="display: flex; gap: var(--space-sm); justify-content: flex-end;">
-        <a href="./markers/hiro.svg" download="hiro-marker.svg" class="btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
-          <span>Download SVG</span>
+        <a href="./markers/hiro.png" download="hiro-marker.png" class="btn-primary" style="padding: 10px 20px; font-size: 0.875rem;">
+          <span>Download Marker (PNG)</span>
         </a>
       </div>
     </div>

@@ -19,6 +19,50 @@ let configurator = null;
 let currentDish = null;
 let foodModelEntity = null;
 let currentRotationY = 0;
+let markerTracked = false;
+let modelReady = false;
+
+/**
+ * A-Frame loads GLB animation clips but does not play them automatically.
+ * This component keeps the embedded steam animation running in marker AR.
+ */
+function registerGltfAnimationMixer() {
+  if (!window.AFRAME || window.AFRAME.components['dineview-animation-mixer']) return;
+
+  window.AFRAME.registerComponent('dineview-animation-mixer', {
+    init() {
+      this.mixer = null;
+      this.onModelLoaded = (event) => {
+        const model = event.detail.model;
+        const clips = model?.animations || [];
+        if (!model || clips.length === 0) return;
+        this.mixer = new window.AFRAME.THREE.AnimationMixer(model);
+        clips.forEach(clip => this.mixer.clipAction(clip).play());
+      };
+      this.el.addEventListener('model-loaded', this.onModelLoaded);
+    },
+    tick(_time, delta) {
+      if (this.mixer) this.mixer.update(delta / 1000);
+    },
+    remove() {
+      this.el.removeEventListener('model-loaded', this.onModelLoaded);
+      if (this.mixer) this.mixer.stopAllAction();
+      this.mixer = null;
+    }
+  });
+}
+
+function setTrackingStatus(message, state = '') {
+  const statusBadge = document.getElementById('arStatusBadge');
+  if (!statusBadge) return;
+  statusBadge.className = `ar-status-pill${state ? ` ${state}` : ''}`;
+  statusBadge.textContent = message;
+}
+
+function getBaseMarkerRotationY() {
+  const parts = (currentDish?.markerRotation || '0 0 0').split(/\s+/).map(Number);
+  return Number.isFinite(parts[1]) ? parts[1] : 0;
+}
 
 async function initMarkerAR() {
   try {
@@ -35,6 +79,10 @@ async function initMarkerAR() {
     configurator.setPortion(portionKey);
 
     currentDish = configurator.getCurrentDish();
+    registerGltfAnimationMixer();
+    foodModelEntity = document.getElementById('foodModelEntity');
+    if (!foodModelEntity) throw new Error('Marker AR food model entity was not found');
+    foodModelEntity.setAttribute('dineview-animation-mixer', '');
     setupAFrameScene();
     setupMarkerEvents();
     setupHUDControls();
@@ -80,43 +128,62 @@ function setupAFrameScene() {
   if (!foodModelEntity || !currentDish) return;
 
   const modelUrl = resolveUrl(currentDish.optimizedModel || currentDish.model);
+  modelReady = false;
+  setTrackingStatus(markerTracked ? 'Marker Found - Loading Dish...' : 'Loading 3D Dish...', markerTracked ? 'locked' : '');
 
-  // Set GLB source
-  foodModelEntity.setAttribute('gltf-model', modelUrl);
+  // Configure the transform before starting the asynchronous model request.
+  updateModelScale();
+  foodModelEntity.setAttribute('position', currentDish.markerPosition || '0 0.03 0');
+  currentRotationY = getBaseMarkerRotationY();
+  foodModelEntity.setAttribute('rotation', `0 ${currentRotationY} 0`);
+  foodModelEntity.setAttribute('visible', true);
 
-  foodModelEntity.addEventListener('model-loaded', () => {
+  // Remove handlers left by a very fast dish switch before its prior load ended.
+  if (foodModelEntity._dineviewModelLoaded) {
+    foodModelEntity.removeEventListener('model-loaded', foodModelEntity._dineviewModelLoaded);
+    foodModelEntity.removeEventListener('model-error', foodModelEntity._dineviewModelError);
+  }
+
+  const onModelLoaded = () => {
+    modelReady = true;
     console.log('3D GLTF Food Model loaded successfully:', modelUrl);
+    setTrackingStatus(markerTracked ? 'Tracking Active' : 'Dish Ready - Find Marker', markerTracked ? 'locked' : '');
+
     const obj = foodModelEntity.getObject3D('mesh');
     if (obj) {
+      obj.visible = true;
       obj.traverse((child) => {
-        if (child.isMesh && child.material) {
-          child.castShadow = true;
-          child.receiveShadow = true;
-          if (child.material.map) {
-            child.material.map.anisotropy = 8;
-            child.material.map.needsUpdate = true;
+        if (!child.isMesh || !child.material) return;
+        child.castShadow = true;
+        child.receiveShadow = true;
+        const materials = Array.isArray(child.material) ? child.material : [child.material];
+        materials.forEach((material) => {
+          if (material.map) {
+            material.map.anisotropy = 8;
+            material.map.needsUpdate = true;
           }
-          child.material.roughness = Math.max(0.15, child.material.roughness || 0.4);
-          child.material.needsUpdate = true;
-        }
+          if (typeof material.roughness === 'number') {
+            material.roughness = Math.max(0.15, material.roughness);
+          }
+          material.needsUpdate = true;
+        });
       });
     }
-  });
+  };
 
-  foodModelEntity.addEventListener('model-error', (e) => {
-    console.error('Failed to load 3D GLTF Food Model:', modelUrl, e);
-  });
+  const onModelError = (event) => {
+    modelReady = false;
+    console.error('Failed to load 3D GLTF Food Model:', modelUrl, event.detail || event);
+    setTrackingStatus('Dish Model Failed to Load', 'lost');
+  };
 
-  // Apply default large scale
-  updateModelScale();
+  foodModelEntity._dineviewModelLoaded = onModelLoaded;
+  foodModelEntity._dineviewModelError = onModelError;
+  foodModelEntity.addEventListener('model-loaded', onModelLoaded, { once: true });
+  foodModelEntity.addEventListener('model-error', onModelError, { once: true });
 
-  // Set calibrated position above the marker
-  const markerPos = currentDish.markerPosition || '0 0.03 0';
-  foodModelEntity.setAttribute('position', markerPos);
-
-  // Set initial rotation
-  currentRotationY = 0;
-  foodModelEntity.setAttribute('rotation', `0 ${currentRotationY} 0`);
+  // Attach listeners first so even a cached model cannot finish unnoticed.
+  foodModelEntity.setAttribute('gltf-model', modelUrl);
 }
 
 /**
@@ -147,24 +214,20 @@ function setupMarkerEvents() {
 
   marker.addEventListener('markerFound', () => {
     console.log('Hiro Marker Found!');
-    if (statusBadge) {
-      statusBadge.className = 'ar-status-pill locked';
-      statusBadge.innerHTML = 'Tracking Active';
+    markerTracked = true;
+    if (foodModelEntity) {
+      foodModelEntity.setAttribute('visible', true);
+      if (foodModelEntity.object3D) foodModelEntity.object3D.visible = true;
     }
-    if (reticle) {
-      reticle.style.opacity = '0';
-    }
+    setTrackingStatus(modelReady ? 'Tracking Active' : 'Marker Found - Loading Dish...', 'locked');
+    if (reticle) reticle.style.opacity = '0';
   });
 
   marker.addEventListener('markerLost', () => {
     console.log('Hiro Marker Lost');
-    if (statusBadge) {
-      statusBadge.className = 'ar-status-pill lost';
-      statusBadge.innerHTML = 'Marker Lost - Realign';
-    }
-    if (reticle) {
-      reticle.style.opacity = '1';
-    }
+    markerTracked = false;
+    setTrackingStatus(modelReady ? 'Marker Lost - Realign' : 'Loading Dish - Find Marker', 'lost');
+    if (reticle) reticle.style.opacity = '1';
   });
 
   // Handle AR.js Camera Initialization
@@ -203,7 +266,7 @@ function setupHUDControls() {
 
   if (btnResetRotation) {
     btnResetRotation.addEventListener('click', () => {
-      currentRotationY = 0;
+      currentRotationY = getBaseMarkerRotationY();
       currentScaleFactor = 1.0;
       updateModelRotation();
       updateModelScale();

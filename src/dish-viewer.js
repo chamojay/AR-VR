@@ -115,162 +115,6 @@ function setupModelViewerControls() {
   }
 }
 
-let activeHotspotIndex = -1;
-let hotspotsVisible = true;
-
-/**
- * Configure Ash-Colored Hotspots on <model-viewer>
- */
-function setupDishHotspots() {
-  if (!modelViewerEl || !currentDish) return;
-
-  // Clear existing hotspot buttons from previous dish
-  modelViewerEl.querySelectorAll('.hotspot-dot').forEach(btn => btn.remove());
-
-  const hotspots = currentDish.hotspots || [];
-  if (hotspots.length === 0) {
-    const hint = document.getElementById('pdpStageHint');
-    if (hint) hint.textContent = 'Touch to spin 360°';
-    return;
-  }
-
-  hotspots.forEach((h, idx) => {
-    const btn = document.createElement('button');
-    btn.className = 'hotspot-dot';
-    btn.slot = h.slot || `hotspot-${idx}`;
-    btn.dataset.position = h.position;
-    btn.dataset.normal = h.normal || '0 1 0';
-    btn.dataset.visibilityAttribute = 'visible';
-    btn.setAttribute('aria-label', `Ingredient highlight: ${h.title}`);
-    btn.setAttribute('title', h.title);
-
-    // Inner subtle ash-gray core and pulsing ring
-    btn.innerHTML = `
-      <div class="hotspot-dot-core"></div>
-      <div class="hotspot-dot-ring"></div>
-    `;
-
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      displayHotspotDetail(h, idx, btn);
-    });
-
-    btn.addEventListener('touchend', (e) => {
-      e.stopPropagation();
-      displayHotspotDetail(h, idx, btn);
-    });
-
-    modelViewerEl.appendChild(btn);
-  });
-}
-
-/**
- * Display Hotspot Detail Card Popup
- */
-function displayHotspotDetail(hotspot, index, triggerBtn) {
-  const card = document.getElementById('hotspotDetailCard');
-  const titleEl = document.getElementById('hotspotTitle');
-  const descEl = document.getElementById('hotspotDesc');
-  const badgeEl = document.getElementById('hotspotBadge');
-
-  if (!card) return;
-
-  activeHotspotIndex = index;
-
-  if (titleEl) titleEl.textContent = hotspot.title;
-  if (descEl) descEl.textContent = hotspot.desc;
-  if (badgeEl) badgeEl.textContent = `INGREDIENT #${index + 1} • CHEF NOTE`;
-
-  // Highlight active dot
-  modelViewerEl.querySelectorAll('.hotspot-dot').forEach((b, i) => {
-    b.classList.toggle('active', i === index);
-  });
-
-  card.classList.add('active');
-
-  // Center / nudge view slightly towards hotspot
-  if (hotspot.position && modelViewerEl) {
-    const posParts = hotspot.position.replace(/m/g, '').trim().split(/\s+/);
-    if (posParts.length === 3) {
-      modelViewerEl.target = `${posParts[0]}m ${posParts[1]}m ${posParts[2]}m`;
-    }
-  }
-}
-
-/**
- * Setup Hotspot Visibility Toggle & Card Interactions
- */
-function setupHotspotToggleAndControls() {
-  const btnToggle = document.getElementById('btnToggleHotspots');
-  const btnClose = document.getElementById('btnCloseHotspotCard');
-  const btnFocus = document.getElementById('btnFocusHotspot');
-  const btnTriggerFromPanel = document.getElementById('btnTriggerHotspotsFromPanel');
-  const card = document.getElementById('hotspotDetailCard');
-  const hint = document.getElementById('pdpStageHint');
-
-  if (btnToggle) {
-    btnToggle.addEventListener('click', () => {
-      hotspotsVisible = !hotspotsVisible;
-      if (modelViewerEl) {
-        modelViewerEl.classList.toggle('hotspots-hidden', !hotspotsVisible);
-      }
-      btnToggle.classList.toggle('active', hotspotsVisible);
-      btnToggle.style.background = hotspotsVisible ? 'var(--color-ink)' : 'var(--color-canvas)';
-      btnToggle.style.color = hotspotsVisible ? '#fff' : 'var(--color-ink)';
-      if (hint) {
-        hint.textContent = hotspotsVisible ? 'Touch ash dots to view ingredients' : 'Ingredient dots hidden';
-      }
-      if (!hotspotsVisible && card) {
-        card.classList.remove('active');
-      }
-    });
-  }
-
-  if (btnClose && card) {
-    btnClose.addEventListener('click', () => {
-      card.classList.remove('active');
-      modelViewerEl.querySelectorAll('.hotspot-dot').forEach(b => b.classList.remove('active'));
-    });
-  }
-
-  if (btnFocus && modelViewerEl && currentDish) {
-    btnFocus.addEventListener('click', () => {
-      const hotspots = currentDish.hotspots || [];
-      if (activeHotspotIndex >= 0 && hotspots[activeHotspotIndex]) {
-        const h = hotspots[activeHotspotIndex];
-        const posParts = h.position.replace(/m/g, '').trim().split(/\s+/);
-        if (posParts.length === 3) {
-          modelViewerEl.target = `${posParts[0]}m ${posParts[1]}m ${posParts[2]}m`;
-          modelViewerEl.cameraOrbit = 'auto auto 0.45m';
-          modelViewerEl.jumpCameraToGoal();
-        }
-      }
-    });
-  }
-
-  if (btnTriggerFromPanel) {
-    btnTriggerFromPanel.addEventListener('click', () => {
-      // Turn on hotspots if hidden
-      hotspotsVisible = true;
-      if (modelViewerEl) modelViewerEl.classList.remove('hotspots-hidden');
-      if (btnToggle) {
-        btnToggle.classList.add('active');
-        btnToggle.style.background = 'var(--color-ink)';
-        btnToggle.style.color = '#fff';
-      }
-      // Trigger first hotspot
-      const hotspots = currentDish.hotspots || [];
-      if (hotspots.length > 0) {
-        const firstBtn = modelViewerEl.querySelector('.hotspot-dot');
-        displayHotspotDetail(hotspots[0], 0, firstBtn);
-      }
-      // Scroll to stage smoothly on mobile
-      const stage = document.querySelector('.pdp-stage-container');
-      if (stage) stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-  }
-}
-
 function getIngredientIcon(ing) {
   const lower = ing.toLowerCase();
   if (lower.includes('sourdough') || lower.includes('flour') || lower.includes('crust')) return '🌾';
@@ -360,10 +204,16 @@ function renderIngredientsAndDietary() {
 function setupARLaunchers() {
   const btnPlaceTable = document.getElementById('btnPlaceOnTable');
   if (btnPlaceTable && modelViewerEl) {
-    btnPlaceTable.addEventListener('click', (e) => {
+    btnPlaceTable.addEventListener('click', async (e) => {
       e.preventDefault();
       if (modelViewerEl.canActivateAR) {
-        modelViewerEl.activateAR();
+        // Start the embedded GLB steam before entering markerless AR.
+        modelViewerEl.play();
+        try {
+          await modelViewerEl.activateAR();
+        } catch (error) {
+          console.error('Could not start markerless AR:', error);
+        }
       } else {
         alert('WebAR Surface Placement: Please open this page on your smartphone via Chrome or Safari to place this dish on your physical table!');
       }

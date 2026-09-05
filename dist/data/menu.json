@@ -46,7 +46,7 @@
       "optimizedModel": "/models/optimized/pizza.glb",
       "thumbnail": "/images/pizza-margherita.png",
       "badge": "Wood-Fired",
-      "markerScale": "0.32 0.32 0.32",
+      "markerScale": "3.2 3.2 3.2",
       "markerPosition": "0 0.02 0",
       "markerRotation": "0 45 0",
       "realWidthM": 0.28,
@@ -72,11 +72,11 @@
           "desc": "Creamy artisanal Fior di Latte with rich melt."
         },
         {
-          "slot": "hotspot-plate",
-          "position": "0m 0.002m 0.13m",
-          "normal": "0m 1m 0.2m",
-          "title": "Ceramic Serving Platter",
-          "desc": "Thermal retaining ceramic keeps the base crisp."
+          "slot": "hotspot-basil",
+          "position": "0.02m 0.028m 0.07m",
+          "normal": "0m 1m 0m",
+          "title": "Fresh Genovese Basil",
+          "desc": "Hand-torn organic sweet basil with volcanic San Marzano tomato passata."
         }
       ],
       "portions": {
@@ -145,7 +145,7 @@
       "optimizedModel": "/models/optimized/pizza_ballerina.glb",
       "thumbnail": "/images/pizza-ballerina.png",
       "badge": "Signature Special",
-      "markerScale": "0.33 0.33 0.33",
+      "markerScale": "3.2 3.2 3.2",
       "markerPosition": "0 0.02 0",
       "markerRotation": "0 90 0",
       "realWidthM": 0.33,
@@ -244,7 +244,7 @@
       "optimizedModel": "/models/optimized/yakiudon.glb",
       "thumbnail": "/images/yakiudon-sizzle.png",
       "badge": "Wok-Tossed",
-      "markerScale": "0.35 0.35 0.35",
+      "markerScale": "2.8 2.8 2.8",
       "markerPosition": "0 0.03 0",
       "markerRotation": "0 30 0",
       "realWidthM": 0.24,
@@ -270,11 +270,11 @@
           "desc": "Adds savory umami crunch and smoky aroma."
         },
         {
-          "slot": "hotspot-bowl",
-          "position": "0.08m 0.02m 0.07m",
-          "normal": "0.7m 0.6m 0.4m",
-          "title": "Traditional Ceramic Donburi",
-          "desc": "Hand-glazed heat-insulating Japanese bowl."
+          "slot": "hotspot-shiitake",
+          "position": "0.05m 0.055m 0.04m",
+          "normal": "0.3m 0.9m 0.2m",
+          "title": "Shiitake & Wok Greens",
+          "desc": "Pan-seared king oyster shiitake and crunchy sweet cabbage."
         }
       ],
       "portions": {
