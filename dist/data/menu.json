@@ -44,6 +44,14 @@
       },
       "originalModel": "/models/original/pizza.glb",
       "optimizedModel": "/models/optimized/pizza.glb",
+      "modelCredits": {
+        "title": "Pizza",
+        "author": "rigisters",
+        "platform": "Sketchfab",
+        "modelUrl": "https://skfb.ly/6RqYo",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+      },
       "thumbnail": "/images/pizza-margherita.png",
       "badge": "Wood-Fired",
       "markerScale": "3.2 3.2 3.2",
@@ -143,6 +151,14 @@
       },
       "originalModel": "/models/original/pizza_ballerina.glb",
       "optimizedModel": "/models/optimized/pizza_ballerina.glb",
+      "modelCredits": {
+        "title": "Pizza Ballerina",
+        "author": "alban",
+        "platform": "Sketchfab",
+        "modelUrl": "https://skfb.ly/oFKYJ",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+      },
       "thumbnail": "/images/pizza-ballerina.png",
       "badge": "Signature Special",
       "markerScale": "3.2 3.2 3.2",
@@ -242,6 +258,14 @@
       },
       "originalModel": "/models/original/yakiudon.glb",
       "optimizedModel": "/models/optimized/yakiudon.glb",
+      "modelCredits": {
+        "title": "Yakiudon",
+        "author": "PiyalakNuchim",
+        "platform": "Sketchfab",
+        "modelUrl": "https://skfb.ly/6YnSM",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0/"
+      },
       "thumbnail": "/images/yakiudon-sizzle.png",
       "badge": "Wok-Tossed",
       "markerScale": "2.8 2.8 2.8",

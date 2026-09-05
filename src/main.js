@@ -127,13 +127,20 @@ function renderDishGrid() {
           <div class="card-touch-hint">Touch & Spin 3D</div>
         </div>
 
-        <!-- Clean Meta: Name, Price & Action Buttons -->
+        <!-- Clean Meta: Name, Price, Attribution & Action Buttons -->
         <div class="product-card-meta">
           <h3 class="product-name" style="font-size: 1.15rem; font-weight: 700;">${dish.name}</h3>
 
           <div class="product-price-row" style="margin-top: 4px; margin-bottom: 8px;">
             <div class="product-price" style="font-size: 1.35rem; font-weight: 800;">${formatLKR(dish.basePrice)}</div>
           </div>
+
+          ${dish.modelCredits ? `
+            <div class="product-model-credit" style="margin-bottom: 12px; padding: 8px 10px; background: var(--color-soft-cloud); border: 1px solid var(--color-hairline-soft); border-radius: 6px; font-size: 0.72rem; line-height: 1.4; color: var(--color-charcoal);">
+              <span style="font-weight: 700; text-transform: uppercase; font-size: 0.65rem; color: var(--color-mute); display: block; margin-bottom: 2px;">3D Model Credit:</span>
+              &ldquo;${dish.modelCredits.title}&rdquo; by ${dish.modelCredits.author}, available on <a href="${dish.modelCredits.modelUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-ink); font-weight: 600; text-decoration: underline;">${dish.modelCredits.platform}</a> (<a href="${dish.modelCredits.modelUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-mute); word-break: break-all;">${dish.modelCredits.modelUrl}</a>), licensed under <a href="${dish.modelCredits.licenseUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-ink); font-weight: 600; text-decoration: underline;">${dish.modelCredits.license}</a> (<a href="${dish.modelCredits.licenseUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-mute); word-break: break-all;">${dish.modelCredits.licenseUrl}</a>).
+            </div>
+          ` : ''}
 
           <div class="product-cta-row">
             <a 

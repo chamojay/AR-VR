@@ -65,6 +65,20 @@ function renderDishDetails() {
   if (btnMarkerAR) {
     btnMarkerAR.href = resolveUrl(`marker-ar.html?dish=${currentDish.id}`);
   }
+
+  // Render 3D Model Credit under the 3D model stage
+  const creditEl = document.getElementById('pdpModelCredit');
+  if (creditEl && currentDish.modelCredits) {
+    const c = currentDish.modelCredits;
+    creditEl.innerHTML = `
+      <div style="font-weight: 700; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; color: var(--color-mute); margin-bottom: 4px;">
+        3D Asset Attribution & License
+      </div>
+      <div>
+        &ldquo;${c.title}&rdquo; by ${c.author}, available on <a href="${c.modelUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-ink); font-weight: 600; text-decoration: underline;">${c.platform}</a> (<a href="${c.modelUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-mute); word-break: break-all;">${c.modelUrl}</a>), licensed under <a href="${c.licenseUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-ink); font-weight: 600; text-decoration: underline;">${c.license}</a> (<a href="${c.licenseUrl}" target="_blank" rel="noopener noreferrer" style="color: var(--color-mute); word-break: break-all;">${c.licenseUrl}</a>).
+      </div>
+    `;
+  }
 }
 
 /**

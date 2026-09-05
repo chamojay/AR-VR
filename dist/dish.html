@@ -6,7 +6,7 @@
   <title>Dish 3D & AR Experience - Cjay's DINER</title>
   <meta name="description" content="Experience Cjay's DINER handcrafted dishes in 3D and Augmented Reality on your table before ordering." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23111111'/%3E%3Ctext x='50' y='65' text-anchor='middle' fill='%23ffffff' font-family='sans-serif' font-weight='800' font-size='42'%3ECJ%3C/text%3E%3C/svg%3E" />
-  <script type="module" crossorigin src="./assets/dish-g51thMC_.js"></script>
+  <script type="module" crossorigin src="./assets/dish-BNMG5UOq.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
   <link rel="modulepreload" crossorigin href="./assets/model-viewer-6q-beTJl.js">
   <link rel="stylesheet" crossorigin href="./assets/styles-BL8tUmAK.css">
@@ -45,47 +45,54 @@
   <main class="container">
     <div class="pdp-layout">
       
-      <!-- Left Column: 3D Stage -->
-      <section class="pdp-stage-container" aria-label="3D Interactive Stage">
-        
-        <!-- Top Badges Overlay -->
-        <div style="position: absolute; top: var(--space-md); left: var(--space-md); z-index: 10; display: flex; gap: var(--space-xs);">
-          <span class="badge-promo" id="pdpBadge">Chef Selection</span>
-          <span class="badge-promo" style="background-color: var(--color-ink); color: var(--color-on-primary);">Cjay's AR Studio</span>
-        </div>
-
-        <!-- <model-viewer> 3D Component -->
-        <model-viewer
-          id="studioViewer"
-          class="pdp-model-viewer"
-          src=""
-          alt="3D Dish Model"
-          ar
-          ar-modes="webxr scene-viewer quick-look"
-          ar-scale="auto"
-          camera-controls
-          touch-action="pan-y"
-          auto-rotate
-          auto-rotate-delay="1500"
-          rotation-per-second="20deg"
-          shadow-intensity="1.1"
-          shadow-softness="0.85"
-          exposure="1.05"
-          autoplay
-        >
-        </model-viewer>
-
-        <!-- Floating Stage Controls Overlay -->
-        <div class="pdp-stage-controls">
-          <div class="pdp-ctrl-group">
-            <button class="btn-icon-circular" id="btnResetCamera" title="Reset 3D Camera" aria-label="Reset Camera" style="font-size: 0.8125rem; font-weight: 700;">RESET</button>
-            <button class="btn-icon-circular" id="btnToggleAutoRotate" title="Toggle Auto-Rotation" aria-label="Auto Rotate" style="font-size: 0.8125rem; font-weight: 700;">SPIN</button>
-            <button class="btn-icon-circular" id="btnToggleLighting" title="Toggle Studio Lighting" aria-label="Studio Lighting" style="font-size: 0.8125rem; font-weight: 700;">LIGHT</button>
+      <!-- Left Column: 3D Stage & Model Attribution -->
+      <div class="pdp-stage-col" style="display: flex; flex-direction: column; gap: var(--space-md);">
+        <section class="pdp-stage-container" aria-label="3D Interactive Stage">
+          
+          <!-- Top Badges Overlay -->
+          <div style="position: absolute; top: var(--space-md); left: var(--space-md); z-index: 10; display: flex; gap: var(--space-xs);">
+            <span class="badge-promo" id="pdpBadge">Chef Selection</span>
+            <span class="badge-promo" style="background-color: var(--color-ink); color: var(--color-on-primary);">Cjay's AR Studio</span>
           </div>
-          <span class="card-touch-hint" id="pdpStageHint" style="position: static;">Touch & drag to inspect 360°</span>
-        </div>
 
-      </section>
+          <!-- <model-viewer> 3D Component -->
+          <model-viewer
+            id="studioViewer"
+            class="pdp-model-viewer"
+            src=""
+            alt="3D Dish Model"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            ar-scale="auto"
+            camera-controls
+            touch-action="pan-y"
+            auto-rotate
+            auto-rotate-delay="1500"
+            rotation-per-second="20deg"
+            shadow-intensity="1.1"
+            shadow-softness="0.85"
+            exposure="1.05"
+            autoplay
+          >
+          </model-viewer>
+
+          <!-- Floating Stage Controls Overlay -->
+          <div class="pdp-stage-controls">
+            <div class="pdp-ctrl-group">
+              <button class="btn-icon-circular" id="btnResetCamera" title="Reset 3D Camera" aria-label="Reset Camera" style="font-size: 0.8125rem; font-weight: 700;">RESET</button>
+              <button class="btn-icon-circular" id="btnToggleAutoRotate" title="Toggle Auto-Rotation" aria-label="Auto Rotate" style="font-size: 0.8125rem; font-weight: 700;">SPIN</button>
+              <button class="btn-icon-circular" id="btnToggleLighting" title="Toggle Studio Lighting" aria-label="Studio Lighting" style="font-size: 0.8125rem; font-weight: 700;">LIGHT</button>
+            </div>
+            <span class="card-touch-hint" id="pdpStageHint" style="position: static;">Touch & drag to inspect 360°</span>
+          </div>
+
+        </section>
+
+        <!-- 3D Model Attribution Card under the 3D model -->
+        <div id="pdpModelCredit" style="background-color: var(--color-soft-cloud); padding: var(--space-md) var(--space-lg); border-radius: 8px; border: 1px solid var(--color-hairline-soft); font-size: 0.8125rem; color: var(--color-charcoal); line-height: 1.5;">
+          <!-- Injected dynamically by dish-viewer.js -->
+        </div>
+      </div>
 
       <!-- Right Column: Product Details & Direct AR Launchers -->
       <section class="pdp-details-col" aria-label="Product Details & AR Actions">
